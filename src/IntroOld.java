@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class IntroOld extends JPanel implements ActionListener {
-    String username, password, confirm, fullName;
+    static String username, password, confirm, fullName;
 
-    public void introOld() {
+    public static void introOld() {
         //creates a jframe
         JFrame frame = new JFrame("Intro");
 
@@ -98,9 +98,8 @@ public class IntroOld extends JPanel implements ActionListener {
         });
     }
 
-    public void main(String[] args) {
-        IntroOld introOld = new IntroOld();
-        introOld.introOld();
+    public static void main(String[] args) {
+        introOld();
     }
 
     @Override
