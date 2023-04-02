@@ -5,10 +5,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Intro extends JPanel implements ActionListener {
-    static String username, password, confirm, fullName;
+public class IntroOld extends JPanel implements ActionListener {
+    String username, password, confirm, fullName;
 
-    public static void intro() {
+    public void introOld() {
         //creates a jframe
         JFrame frame = new JFrame("Intro");
 
@@ -71,7 +71,7 @@ public class Intro extends JPanel implements ActionListener {
 
         //sets up jframe
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);   //makes the frame close when the x button is clicked?
-        frame.getContentPane().add(new Intro());    //IDK what this does
+        frame.getContentPane().add(new IntroOld());    //IDK what this does
         frame.pack();   //IDK what this does
         frame.setSize(584, 612);    //sets the size of the jframe
         frame.setLocationRelativeTo(null);  //centers the jframe in the screen
@@ -98,8 +98,9 @@ public class Intro extends JPanel implements ActionListener {
         });
     }
 
-    public static void main(String[] args) {
-        intro();
+    public void main(String[] args) {
+        IntroOld introOld = new IntroOld();
+        introOld.introOld();
     }
 
     @Override
