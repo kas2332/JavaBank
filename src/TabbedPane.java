@@ -1,14 +1,14 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class TabbedPane extends JPanel {
+    static TabbedPane tabbedPane = new TabbedPane();
 
     public static void main(String[] args) {
-        tabbedPane();
+        tabbedPane.tabbedPane();
     }
 
-    public static void tabbedPane() {
+    public void tabbedPane() {
         //Makes the base frame
         JFrame frame = new JFrame("TabbedPaneDemo");
         //Makes the tabbed pane
@@ -29,7 +29,6 @@ public class TabbedPane extends JPanel {
         tabbedPane.setMnemonicAt(2, KeyEvent.VK_W);
 
         JComponent Transfer = new Transfer();
-        Transfer.setPreferredSize(new Dimension(410, 50));
         tabbedPane.addTab("Transfer", null, Transfer, "Transfer money from your account to someone else's account");
         tabbedPane.setMnemonicAt(3, KeyEvent.VK_T);
 

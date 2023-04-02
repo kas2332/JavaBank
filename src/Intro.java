@@ -2,13 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Intro extends javax.swing.JFrame {
-    static String username, password, confirm, fullName;
+    static Intro intro = new Intro();
+    String username, password, confirm, fullName;
+    Bank bank = new Bank();
 
     public static void main(String[] args) {
-        intro();
+        intro.intro();
     }
 
-    public static void intro() {
+    public void intro() {
 
         /* Set the Nimbus look and feel */
         //<editor-fold default-state="collapsed" desc=" Look and feel setting code (optional) ">
@@ -73,7 +75,7 @@ public class Intro extends javax.swing.JFrame {
             username = LogInUsernameField.getText();
             //noinspection deprecation
             password = LogInPasswordField.getText();
-            Bank.logIn(username, password);
+            bank.logIn(username, password);
             frame.dispose();
         });
 
@@ -124,7 +126,7 @@ public class Intro extends javax.swing.JFrame {
             //noinspection deprecation
             confirm = ConfirmField.getText();
             fullName = FullNameField.getText();
-            Bank.signUp(username, password, confirm, fullName);
+            bank.signUp(username, password, confirm, fullName);
             frame.dispose();
         });
 

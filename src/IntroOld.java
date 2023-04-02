@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 public class IntroOld extends JPanel implements ActionListener {
     static String username, password, confirm, fullName;
+    static Bank bank = new Bank();
 
     public static void introOld() {
         //creates a jframe
@@ -83,7 +84,7 @@ public class IntroOld extends JPanel implements ActionListener {
             username = usernameLogInField.getText();
             //noinspection deprecation
             password = passwordLogInField.getText();
-            Bank.logIn(username, password);
+            bank.logIn(username, password);
             frame.dispose();
         });
         signUpButton.addActionListener(e -> {
@@ -93,7 +94,7 @@ public class IntroOld extends JPanel implements ActionListener {
             //noinspection deprecation
             confirm = confirmField.getText();
             fullName = fullNameField.getText();
-            Bank.signUp(username, password, confirm, fullName);
+            bank.signUp(username, password, confirm, fullName);
             frame.dispose();
         });
     }
