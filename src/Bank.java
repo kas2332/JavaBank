@@ -18,9 +18,10 @@ class Bank {
     String FilePass;
     boolean dirMade;
     Intro intro = new Intro();
+    TabbedPane tabbedPane = new TabbedPane();
 
     public static void main(String[] args) {
-        Bnka bank = new Bank();
+        Bank bank = new Bank();
         bank.CheckMakeDir();
     }
 
@@ -86,9 +87,10 @@ class Bank {
                     JOptionPane.showMessageDialog(null, "Error, passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
             case "error" ->
                     JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
-            case "dirError" ->
-                    JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
-                    System.exit(-1);
+            case "dirError" -> {
+                JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
+                System.exit(-1);
+            }
         }
     }
 }
