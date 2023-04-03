@@ -13,15 +13,14 @@ import java.util.Objects;
 import java.util.Random;
 
 class Bank {
-    static Bank bank = new Bank();
     Random rand = new Random(); //helps set up a random int
     double balance = 50.00; //creates an initial balance of $50
     String FilePass;
     boolean dirMade;
     Intro intro = new Intro();
-    TabbedPane tabbedPane = new TabbedPane();
 
     public static void main(String[] args) {
+        Bnka bank = new Bank();
         bank.CheckMakeDir();
     }
 
@@ -29,7 +28,7 @@ class Bank {
         if (!(new File("JavaBankDir").exists())) {    //checks to see if there is a directory to store account information
             dirMade = (new File("JavaBankDir")).mkdir(); //creates a directory
             if (!dirMade) {
-                Error("error");
+                Error("dirError");
             }
         }
         intro.intro();    //pulls up the intro jframe
@@ -87,6 +86,9 @@ class Bank {
                     JOptionPane.showMessageDialog(null, "Error, passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
             case "error" ->
                     JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
+            case "dirError" ->
+                    JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
+                    System.exit(-1);
         }
     }
 }
