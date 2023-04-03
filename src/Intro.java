@@ -2,11 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Intro extends javax.swing.JFrame {
-    static Intro intro = new Intro();
     String username, password, confirm, fullName;
-    Bank bank = new Bank();
 
     public static void main(String[] args) {
+        Intro intro = new Intro();
         intro.intro();
     }
 
@@ -75,6 +74,7 @@ public class Intro extends javax.swing.JFrame {
             username = LogInUsernameField.getText();
             //noinspection deprecation
             password = LogInPasswordField.getText();
+            Bank bank = new Bank();
             bank.logIn(username, password);
             frame.dispose();
         });
@@ -126,6 +126,7 @@ public class Intro extends javax.swing.JFrame {
             //noinspection deprecation
             confirm = ConfirmField.getText();
             fullName = FullNameField.getText();
+            Bank bank = new Bank();
             bank.signUp(username, password, confirm, fullName);
             frame.dispose();
         });
