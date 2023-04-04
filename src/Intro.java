@@ -57,7 +57,7 @@ public class Intro extends javax.swing.JFrame {
 
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         frame.setPreferredSize(new java.awt.Dimension(500, 500));
-        frame.setResizable(false);
+        frame.setResizable(true);
 
         LogInPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log In", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font)); // NOI18N
         LogInPanel.setPreferredSize(new java.awt.Dimension(215, 295));
@@ -86,17 +86,19 @@ public class Intro extends javax.swing.JFrame {
                         .addGroup(LogInPanelLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(LogInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(LogInUsernameText)
-                                        .addComponent(LogInPasswordText))
-                                .addGap(18, 18, 18)
-                                .addGroup(LogInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(LogInUsernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                        .addComponent(LogInPasswordField))
+                                        .addGroup(LogInPanelLayout.createSequentialGroup()
+                                                .addGroup(LogInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(LogInUsernameText)
+                                                        .addComponent(LogInPasswordText))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(LogInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(LogInUsernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                                                        .addComponent(LogInPasswordField)))
+                                        .addGroup(LogInPanelLayout.createSequentialGroup()
+                                                .addGap(0, 0, Short.MAX_VALUE)
+                                                .addComponent(LogInButton)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
                                 .addContainerGap())
-                        .addGroup(LogInPanelLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(LogInButton)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         LogInPanelLayout.setVerticalGroup(
                 LogInPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,13 +157,12 @@ public class Intro extends javax.swing.JFrame {
                                                 .addComponent(SignUpButton)
                                                 .addGap(0, 0, Short.MAX_VALUE))
                                         .addGroup(SignUpPanelLayout.createSequentialGroup()
-                                                .addComponent(ConfirmText)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(ConfirmField)
-                                                .addContainerGap())
-                                        .addGroup(SignUpPanelLayout.createSequentialGroup()
-                                                .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SignUpPanelLayout.createSequentialGroup()
+                                                .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addGroup(SignUpPanelLayout.createSequentialGroup()
+                                                                .addComponent(ConfirmText)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(ConfirmField))
+                                                        .addGroup(SignUpPanelLayout.createSequentialGroup()
                                                                 .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addComponent(SignUpUsernameText)
                                                                         .addComponent(SignUpPasswordText))
@@ -169,7 +170,7 @@ public class Intro extends javax.swing.JFrame {
                                                                 .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                                         .addComponent(SignUpUsernameField, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                                                                         .addComponent(SignUpPasswordField)))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, SignUpPanelLayout.createSequentialGroup()
+                                                        .addGroup(SignUpPanelLayout.createSequentialGroup()
                                                                 .addComponent(FullNameText)
                                                                 .addGap(18, 18, 18)
                                                                 .addComponent(FullNameField)))
@@ -226,25 +227,25 @@ public class Intro extends javax.swing.JFrame {
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(WelcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(LogInPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(SignUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)))
-                                .addContainerGap())
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(WelcomePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(LogInPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(SignUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addContainerGap())
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         frame.pack();
