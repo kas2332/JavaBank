@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class TabbedPane extends JPanel {
@@ -9,18 +10,35 @@ public class TabbedPane extends JPanel {
     }
 
     public void tabbedPane() {
+
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                 UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(TabbedPane.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        Font font = new Font("Comic Sans MS", Font.PLAIN, 12);
+
         //Makes the base frame
-        JFrame frame = new JFrame("TabbedPaneDemo");
+        JFrame frame = new JFrame("Java Bank");
         //Makes the tabbed pane
         JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setFont(font);
 
         //Makes an object of the specific tab to make the panel
-        JComponent Home = new Home();
+        JComponent Home = new HomeOld();
         //Makes the tab and a quick key
         tabbedPane.addTab("Home", null, Home, "Welcome Home!");
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_H);
 
         JComponent Deposit = new Deposit();
+        tabbedPane.addTab("Deposit", null, Deposit, "Deposit money into your account");
         tabbedPane.addTab("Deposit", null, Deposit, "Deposit money into your account");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_D);
 
