@@ -12,10 +12,6 @@ public class Intro extends javax.swing.JFrame {
     public void intro() {
 
         /* Set the Nimbus look and feel */
-        //<editor-fold default-state="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -27,13 +23,14 @@ public class Intro extends javax.swing.JFrame {
                  UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Intro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
+        //Set up the JFrame
 
-
-        JFrame frame = new JFrame();
-
+        //Create font
+        Font font = new Font("Comic Sans MS", Font.PLAIN, 12);
+        //Create Frame
+        JFrame frame = new JFrame("Java Bank"); //create JFrame and set title
+        //Start create panels, texts, and fields
         JPanel LogInPanel = new javax.swing.JPanel();
         JLabel LogInUsernameText = new javax.swing.JLabel();
         JLabel LogInPasswordText = new javax.swing.JLabel();
@@ -52,23 +49,22 @@ public class Intro extends javax.swing.JFrame {
         JPasswordField ConfirmField = new javax.swing.JPasswordField();
         JPanel WelcomePanel = new javax.swing.JPanel();
         JLabel WelcomeText = new javax.swing.JLabel();
-
-        Font font = new Font("Comic Sans MS", Font.PLAIN, 12);
-
+        //Sets Frame behaviors
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         frame.setPreferredSize(new java.awt.Dimension(500, 500));
         frame.setResizable(true);
 
-        LogInPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log In", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font)); // NOI18N
+        //Log In Panel formatting
+        LogInPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log In", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font));
         LogInPanel.setPreferredSize(new java.awt.Dimension(215, 295));
 
-        LogInUsernameText.setFont(font); // NOI18N
+        LogInUsernameText.setFont(font);
         LogInUsernameText.setText("Username");
 
-        LogInPasswordText.setFont(font); // NOI18N
+        LogInPasswordText.setFont(font);
         LogInPasswordText.setText("Password");
 
-        LogInButton.setFont(font); // NOI18N
+        LogInButton.setFont(font);
         LogInButton.setText("Log In");
         LogInButton.addActionListener(e -> {
             username = LogInUsernameField.getText();
@@ -116,10 +112,11 @@ public class Intro extends javax.swing.JFrame {
                                 .addContainerGap(102, Short.MAX_VALUE))
         );
 
-        SignUpPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sign Up", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font)); // NOI18N
+        //Sign Up panel formatting
+        SignUpPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sign Up", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font));
         SignUpPanel.setPreferredSize(new java.awt.Dimension(215, 295));
 
-        SignUpButton.setFont(font); // NOI18N
+        SignUpButton.setFont(font);
         SignUpButton.setText("Sign Up");
         SignUpButton.addActionListener(e -> {
             username = SignUpUsernameField.getText();
@@ -133,16 +130,16 @@ public class Intro extends javax.swing.JFrame {
             frame.dispose();
         });
 
-        SignUpPasswordText.setFont(font); // NOI18N
+        SignUpPasswordText.setFont(font);
         SignUpPasswordText.setText("Password");
 
-        SignUpUsernameText.setFont(font); // NOI18N
+        SignUpUsernameText.setFont(font);
         SignUpUsernameText.setText("Username");
 
-        FullNameText.setFont(font); // NOI18N
+        FullNameText.setFont(font);
         FullNameText.setText("Full Name");
 
-        ConfirmText.setFont(font); // NOI18N
+        ConfirmText.setFont(font);
         ConfirmText.setText("Confirm");
 
         javax.swing.GroupLayout SignUpPanelLayout = new javax.swing.GroupLayout(SignUpPanel);
@@ -200,9 +197,10 @@ public class Intro extends javax.swing.JFrame {
                                 .addContainerGap(72, Short.MAX_VALUE))
         );
 
-        WelcomePanel.setName(""); // NOI18N
+        //Welcome panel formatting
+        WelcomePanel.setName("");
 
-        WelcomeText.setFont(font); // NOI18N
+        WelcomeText.setFont(font);
         WelcomeText.setText("Welcome!");
 
         javax.swing.GroupLayout WelcomePanelLayout = new javax.swing.GroupLayout(WelcomePanel);
