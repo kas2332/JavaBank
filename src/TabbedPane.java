@@ -39,7 +39,6 @@ public class TabbedPane extends JPanel {
 
         JComponent Deposit = new Deposit();
         tabbedPane.addTab("Deposit", null, Deposit, "Deposit money into your account");
-        tabbedPane.addTab("Deposit", null, Deposit, "Deposit money into your account");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_D);
 
         JComponent Withdraw = new Withdraw();

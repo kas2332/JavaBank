@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Home extends javax.swing.JFrame {
+public class Home extends JPanel {
     String username;
 
     public static void main(String[] args) {
@@ -75,7 +75,7 @@ public class Home extends javax.swing.JFrame {
         transferButton.setFont(font);
 
         infoButton.setText("Account Information");
-        transferButton.setFont(font);
+        infoButton.setFont(font);
 
         javax.swing.GroupLayout ButtonPaneLayout = new javax.swing.GroupLayout(buttonPane);
         buttonPane.setLayout(ButtonPaneLayout);
