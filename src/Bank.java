@@ -15,7 +15,7 @@ import java.util.Random;
 class Bank {
     Random rand = new Random(); //helps set up a random int
     double balance = 50.00; //creates an initial balance of $50
-    String FilePass;
+    String FilePass, username, password, confirm, fullName;
     boolean dirMade;
     Intro intro = new Intro();
     TabbedPane tabbedPane = new TabbedPane();
@@ -36,43 +36,58 @@ class Bank {
     }
 
     public void signUp(String username, String password, String confirm, String fullName) { //checks to see if the given information can create an account
-        if (new File("JavaBankDir\\" + username + ".txt").exists()) {    //checks to see if there is an account with that username
-            Error("username taken");    //sends an error message method that the username is already taken
-            intro.intro();    //pulls up the intro jframe
-        } else if (!Objects.equals(password, confirm)) {    //checks to see if the password and confirm password fields match
-            Error("password mismatch");    //sends an error message method that the passwords do not match
-            intro.intro();    //pulls up the intro jframe
+        if (username.equals("") || password.equals("") || confirm.equals("") || fullName.equals("")) {
+            Error("null field");
+            intro.intro();
         } else {
-            try {
-                Writer w1 = new FileWriter("JavaBankDir/" + username + ".txt");    //makes a .txt file for that person
-                w1.write(fullName + "\n" + String.format("%06d", rand.nextInt(999999)) + "\n" + password + "\n" + balance);    //writes the person's information
-                w1.close();    //closes the writer
-                tabbedPane.tabbedPane();    //pulls up the main jframe
-            } catch (IOException e) {    //If I can't write in a file/make a file
-                Error("error"); //sends a generic error message
-                intro.intro();  //pulls up intro jframe
+            this.username = username;
+            this.password = password;
+            this.confirm = confirm;
+            this.fullName = fullName;
+            if (new File("JavaBankDir\\" + username + ".txt").exists()) {    //checks to see if there is an account with that username
+                Error("username taken");    //sends an error message method that the username is already taken
+                intro.intro();    //pulls up the intro jframe
+            } else if (!Objects.equals(password, confirm)) {    //checks to see if the password and confirm password fields match
+                Error("password mismatch");    //sends an error message method that the passwords do not match
+                intro.intro();    //pulls up the intro jframe
+            } else {
+                try {
+                    Writer w1 = new FileWriter("JavaBankDir/" + username + ".txt");    //makes a .txt file for that person
+                    w1.write(fullName + "\n" + String.format("%06d", rand.nextInt(999999)) + "\n" + password + "\n" + balance);    //writes the person's information
+                    w1.close();    //closes the writer
+                    tabbedPane.tabbedPane();    //pulls up the main jframe
+                } catch (IOException e) {    //If I can't write in a file/make a file
+                    Error("error"); //sends a generic error message
+                    intro.intro();  //pulls up intro jframe
+                }
             }
         }
     }
 
     public void logIn(String username, String password) {    //checks to see if the person can log in
-        if (!(new File("JavaBankDir\\" + username + ".txt").exists())) {    //checks to see if that username does not exist
-            Error("incorrect username");    //sends an error message that the username does not exist
-            intro.intro();  //pulls up the intro jframe
-        } else {    //checks if password is right
-            try {
-                FilePass = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(2); //pulls up the third line of the text file which is the password
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            if (!password.equals(FilePass)) { //checks if the passwords match
-                Error("incorrect password"); //sends an error message that the password(/username) is incorrect
+        if (username.equals("") || password.equals("")) {
+            Error("null field");
+            intro.intro();
+        } else {
+            this.username = username;
+            this.password = password;
+            if (!(new File("JavaBankDir\\" + username + ".txt").exists())) {    //checks to see if that username does not exist
+                Error("incorrect username");    //sends an error message that the username does not exist
                 intro.intro();  //pulls up the intro jframe
-            } else {
-                tabbedPane.tabbedPane();  //pulls up the main jframe
+            } else {    //checks if password is right
+                try {
+                    FilePass = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(2); //pulls up the third line of the text file which is the password
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                if (!password.equals(FilePass)) { //checks if the passwords match
+                    Error("incorrect password"); //sends an error message that the password(/username) is incorrect
+                    intro.intro();  //pulls up the intro jframe
+                } else {
+                    tabbedPane.tabbedPane();  //pulls up the main jframe
+                }
             }
         }
-
     }
 
     public void Error(String errorMessage) { //pulls up error messages
@@ -91,6 +106,8 @@ class Bank {
                 JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
                 System.exit(-1);
             }
+            case "null field" ->
+                    JOptionPane.showMessageDialog(null, "Please fill all text fields.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
