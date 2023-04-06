@@ -51,7 +51,6 @@ public class Intro extends javax.swing.JFrame {
         JLabel WelcomeText = new javax.swing.JLabel();
         //Sets Frame behaviors
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new java.awt.Dimension(500, 500));
         frame.setResizable(true);
 
         //Log In Panel formatting

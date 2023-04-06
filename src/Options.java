@@ -30,15 +30,15 @@
             options();
         } else {
             try {
-                balance = 0;
-                Double balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
-                OldBalance = GetInterest(balance);
+                startingBalance = 0;
+                Double startingBalance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+                OldBalance = GetInterest(startingBalance);
                 Double NewBalance = OldBalance + deposit;
                 String filePath = "JavaBankDir\\" + username + ".txt";
                 String result = fileToString(filePath);
                 //System.out.println("Contents of the file: "+result);
                 //Replacing the word with desired one
-                result = result.replaceAll(String.valueOf(balance), String.valueOf(NewBalance));
+                result = result.replaceAll(String.valueOf(startingBalance), String.valueOf(NewBalance));
                 //Rewriting the contents of the file
                 PrintWriter writer = new PrintWriter(filePath);
                 writer.append(result);
@@ -61,9 +61,9 @@
             options();
         } else {
             try {
-                balance = 0;
-                Double balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
-                OldBalance = GetInterest(balance);
+                startingBalance = 0;
+                Double startingBalance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+                OldBalance = GetInterest(startingBalance);
 
                 if (withdraw > OldBalance) {
                     System.out.println("Error: invalid funds!");
@@ -74,7 +74,7 @@
                     String result = fileToString(filePath);
                     //System.out.println("Contents of the file: "+result);
                     //Replacing the word with desired one
-                    result = result.replaceAll(String.valueOf(balance), String.valueOf(NewBalance));
+                    result = result.replaceAll(String.valueOf(startingBalance), String.valueOf(NewBalance));
                     //Rewriting the contents of the file
                     PrintWriter writer = new PrintWriter(filePath);
                     writer.append(result);
@@ -115,9 +115,9 @@
                         options();
                     } else {
                         try {
-                            balance = 0;
-                            Double balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
-                            OldBalance = GetInterest(balance);
+                            startingBalance = 0;
+                            Double startingBalance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+                            OldBalance = GetInterest(startingBalance);
 
                             if (withdraw > OldBalance) {
                                 System.out.println("Error: invalid funds!");
@@ -127,14 +127,14 @@
                                 String filePath = "JavaBankDir\\" + username + ".txt";
                                 String result = fileToString(filePath);
                                 //Replacing the word with desired one
-                                result = result.replaceAll(String.valueOf(balance), String.valueOf(NewBalance));
+                                result = result.replaceAll(String.valueOf(startingBalance), String.valueOf(NewBalance));
                                 //Rewriting the contents of the file
                                 PrintWriter writer = new PrintWriter(filePath);
                                 writer.append(result);
                                 writer.flush();
 
-                                balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
-                                OldBalance = GetInterest(balance);
+                                startingBalance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+                                OldBalance = GetInterest(startingBalance);
                                 Double TrsNewBalance = OldBalance + withdraw;
                                 filePath = "JavaBankDir\\" + username + ".txt";
                                 result = fileToString(filePath);
@@ -166,8 +166,8 @@
                 System.out.println(info);
             }
 
-            balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
-            OldBalance = GetInterest(balance);
+            startingBalance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+            OldBalance = GetInterest(startingBalance);
             System.out.println(OldBalance);
             options();
         } catch (IOException e) {
@@ -188,7 +188,7 @@
         return sb.toString();
     }
 
-    public static double GetInterest(double balance) {
+    public static double GetInterest(double startingBalance) {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         Path path = Paths.get("JavaBankDir\\" + username + ".txt");
@@ -203,9 +203,9 @@
         }
 
         double j = (((((float) toSec / 60) / 60) / 24) / 365);
-        double total = Double.parseDouble(df.format((float) balance * (1.1 * j)));
-        balance = balance + total;
-        return balance;
+        double total = Double.parseDouble(df.format((float) startingBalance * (1.1 * j)));
+        startingBalance = startingBalance + total;
+        return startingBalance;
     }
 }
 */

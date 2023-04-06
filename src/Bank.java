@@ -13,9 +13,10 @@ import java.util.Objects;
 import java.util.Random;
 
 class Bank {
+    final double startingBalance = 50.00;
     Random rand = new Random(); //helps set up a random int
-    double balance = 50.00; //creates an initial balance of $50
-    String FilePass, username, password, confirm, fullName;
+    double balance; //creates an initial startingBalance of $50
+    String FilePass, username, password, confirm, fullName, accountNumberString;
     boolean dirMade;
     Intro intro = new Intro();
     TabbedPane tabbedPane = new TabbedPane();
@@ -52,8 +53,10 @@ class Bank {
                 intro.intro();    //pulls up the intro jframe
             } else {
                 try {
+                    accountNumberString = String.format("%06d", rand.nextInt(999999));
+                    balance = startingBalance;
                     Writer w1 = new FileWriter("JavaBankDir/" + username + ".txt");    //makes a .txt file for that person
-                    w1.write(fullName + "\n" + String.format("%06d", rand.nextInt(999999)) + "\n" + password + "\n" + balance);    //writes the person's information
+                    w1.write(fullName + "\n" + accountNumberString + "\n" + password + "\n" + startingBalance);    //writes the person's information
                     w1.close();    //closes the writer
                     tabbedPane.tabbedPane();    //pulls up the main jframe
                 } catch (IOException e) {    //If I can't write in a file/make a file
