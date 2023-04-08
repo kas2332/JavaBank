@@ -59,9 +59,11 @@ public class Intro extends javax.swing.JFrame {
 
         LogInUsernameText.setFont(font);
         LogInUsernameText.setText("Username");
+        //LogInUsernameField.setFont(font);
 
         LogInPasswordText.setFont(font);
         LogInPasswordText.setText("Password");
+        //LogInPasswordField.setFont(font);
 
         LogInButton.setFont(font);
         LogInButton.setText("Log In");
@@ -131,15 +133,19 @@ public class Intro extends javax.swing.JFrame {
 
         SignUpPasswordText.setFont(font);
         SignUpPasswordText.setText("Password");
+        SignUpPasswordField.setFont(font);
 
         SignUpUsernameText.setFont(font);
         SignUpUsernameText.setText("Username");
+        SignUpUsernameField.setFont(font);
 
         FullNameText.setFont(font);
         FullNameText.setText("Full Name");
+        FullNameField.setFont(font);
 
         ConfirmText.setFont(font);
         ConfirmText.setText("Confirm");
+        ConfirmField.setFont(font);
 
         javax.swing.GroupLayout SignUpPanelLayout = new javax.swing.GroupLayout(SignUpPanel);
         SignUpPanel.setLayout(SignUpPanelLayout);

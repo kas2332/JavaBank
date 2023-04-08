@@ -3,27 +3,28 @@ import java.awt.*;
 
 public class TabbedPane {
     //import variables
-    String username = "username", fullName = "fullName", accountNumber = "000000", transaction1 = "1", transaction2 = "2", transaction3 = "3";
-    int balance = 101;
+    String username = "kass", fullName = "fullName", accountNumber = "000000", transaction1 = "1", transaction2 = "2", transaction3 = "3";
+    double balance = 101;
     //export variables
     int depositAmount, withdrawAmount, transferAmount, tranfereeAccountNumber;
     String newFullName, newUsername, newPassword;
 
     public static void main(String[] args) {
-        TabbedPane tabbedPaneNew = new TabbedPane();
-        tabbedPaneNew.tabbedPane(tabbedPaneNew.username, tabbedPaneNew.fullName, tabbedPaneNew.accountNumber, tabbedPaneNew.balance, tabbedPaneNew.transaction1, tabbedPaneNew.transaction2, tabbedPaneNew.transaction3);
+        TabbedPane tabbedPane = new TabbedPane();
+        tabbedPane.tabbedPane(tabbedPane.username);
     }
 
-    public void tabbedPane(String usernameP, String fullNameP, String accountNumberStringP, double balanceP, String transaction1P, String transaction2P, String transaction3P) {
-        username = usernameP;
-        fullName = fullNameP;
-        accountNumber = accountNumberStringP;
-        balance = (int) balanceP;
-        transaction1 = transaction1P;
-        transaction2 = transaction2P;
-        transaction3 = transaction3P;
-        System.out.println(username + accountNumber + balance + transaction1 +transaction2 + transaction3);
-
+    public void tabbedPane(String usernameP) {
+        Bank bank = new Bank();
+        this.username = usernameP;
+        bank.setUsername(username);
+        bank.getInformation();
+        this.fullName = bank.fullName;
+        this.accountNumber = bank.accountNumberString;
+        this.balance = bank.balance;
+        this.transaction1 = bank.transaction1;
+        this.transaction2 = bank.transaction2;
+        this.transaction3 = bank.transaction3;
 
         //<editor-fold desc="Set the Nimbus look and feel">
         try {
@@ -234,24 +235,27 @@ public class TabbedPane {
         DepositSliderPanel.setFont((font));
 
         DepositSlider.setFont((font));
-        DepositSlider.setMaximum(balance);
-        DepositSlider.setMajorTickSpacing((int) Math.floor(balance/10d));
-        DepositSlider.setMinorTickSpacing((int) Math.floor(balance/20d));
+        DepositSlider.setMaximum((int) balance);
+        DepositSlider.setMajorTickSpacing((int) Math.floor(balance /10d));
+        DepositSlider.setMinorTickSpacing((int) Math.floor(balance /20d));
         DepositSlider.setPaintLabels(true);
         DepositSlider.setPaintTicks(true);
-        DepositSlider.setValue(balance/2);
+        DepositSlider.setValue((int) (balance/2));
 
         DepositConfirmButton.setFont((font));
         DepositConfirmButton.setText("Confirm");
         DepositConfirmButton.addActionListener(e -> {
             depositAmount = DepositSlider.getValue();
-            //Deposit Money
+            bank.setUsername(username);
+            //bank.setBalance(balance);
+            frame.dispose();
+            bank.deposit(depositAmount);
             System.out.println("Deposit amount: " + depositAmount);
         });
 
         VariableDepositText.setFont((font));
         VariableDepositText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        VariableDepositText.setText("$" + (balance / 2));
+        VariableDepositText.setText("$" + (int) (balance / 2));
 
         DepositSlider.addChangeListener(e -> VariableDepositText.setText("$" + DepositSlider.getValue()));
 
@@ -344,12 +348,12 @@ public class TabbedPane {
         WithdrawPanel.setFont((font));
 
         WithdrawSlider.setFont((font));
-        WithdrawSlider.setMaximum(balance);
-        WithdrawSlider.setMajorTickSpacing((int) Math.floor(balance/10d));
-        WithdrawSlider.setMinorTickSpacing((int) Math.floor(balance/20d));
+        WithdrawSlider.setMaximum((int) balance);
+        WithdrawSlider.setMajorTickSpacing((int) Math.floor(balance /10d));
+        WithdrawSlider.setMinorTickSpacing((int) Math.floor(balance /20d));
         WithdrawSlider.setPaintLabels(true);
         WithdrawSlider.setPaintTicks(true);
-        WithdrawSlider.setValue(balance/2);
+        WithdrawSlider.setValue((int) (balance /2));
 
         WithdrawConfirmButton.setFont((font));
         WithdrawConfirmButton.setText("Confirm");
@@ -361,7 +365,7 @@ public class TabbedPane {
 
         VariableWithdrawText.setFont((font));
         VariableWithdrawText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        VariableWithdrawText.setText("$" + (balance / 2));
+        VariableWithdrawText.setText("$" + (int) (balance / 2));
 
         WithdrawSlider.addChangeListener(e -> VariableWithdrawText.setText("$" + WithdrawSlider.getValue()));
 
@@ -454,17 +458,17 @@ public class TabbedPane {
         TransferPanel.setFont((font));
 
         TransferSlider.setFont((font));
-        TransferSlider.setMaximum(balance);
-        TransferSlider.setMajorTickSpacing((int) Math.floor(balance/10d));
-        TransferSlider.setMinorTickSpacing((int) Math.floor(balance/20d));
+        TransferSlider.setMaximum((int) balance);
+        TransferSlider.setMajorTickSpacing((int) Math.floor(balance /10d));
+        TransferSlider.setMinorTickSpacing((int) Math.floor(balance /20d));
         TransferSlider.setPaintLabels(true);
         TransferSlider.setPaintTicks(true);
-        TransferSlider.setValue(balance/2);
+        TransferSlider.setValue((int) (balance /2));
 
 
         VariableTransferText1.setFont((font));
         VariableTransferText1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        VariableTransferText1.setText("$" + (balance / 2));
+        VariableTransferText1.setText("$" + (int) (balance / 2));
 
         TransferSlider.addChangeListener(e -> VariableTransferText1.setText("$" + TransferSlider.getValue()));
 
@@ -708,8 +712,10 @@ public class TabbedPane {
         LogOutButton.setFont((font));
         LogOutButton.setText("Log Out");
         LogOutButton.addActionListener(e -> {
-            //Intro():
-            System.out.println("Intro");
+            System.out.println("intro");
+            //Intro intro = new Intro();
+            //intro.intro();
+
         });
 
         //<editor-fold desc="DO NOT TOUCH, AccountTabLayout">
