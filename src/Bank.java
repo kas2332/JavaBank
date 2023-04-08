@@ -71,7 +71,7 @@ class Bank {
         }
     }
 
-    public void logIn(String usernameP, String passwordP) {    //checks to see if the person can log in
+    public void logIn(String usernameP, String passwordP) { //checks to see if the person can log in
         if (usernameP.equals("") || passwordP.equals("")) {
             Error("null field");
             intro.intro();
@@ -98,7 +98,38 @@ class Bank {
         }
     }
 
-    public void getInformation () {
+    public void deposit(int depositAmount) {
+        String filePath = "JavaBankDir\\" + username + ".txt";
+        try {
+            getInformation();
+            double newBalance = balance + depositAmount;
+            // input the file content to the StringBuffer "input"
+            BufferedReader file = new BufferedReader(new FileReader(filePath));
+            StringBuilder inputBuffer = new StringBuilder();
+            String line;
+            while ((line = file.readLine()) != null) {
+                inputBuffer.append(line);
+                inputBuffer.append('\n');
+            }
+            file.close();
+            String inputStr = inputBuffer.toString();
+
+            // logic to replace lines in the string (could use regex here to be generic)
+            inputStr = inputStr.replace(Double.toString(balance), Double.toString(newBalance));
+
+            // display the new file for debugging
+
+            // write the new string with the replaced line OVER the same file
+            FileOutputStream fileOut = new FileOutputStream(filePath);
+            fileOut.write(inputStr.getBytes());
+            fileOut.close();
+            Successful("deposit");
+        } catch (Exception e) {
+            Error("error");
+        }
+    }
+
+    public void getInformation() {
         try {
             List<String> fileLines = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt"));
             int numLines = fileLines.size();
@@ -127,9 +158,8 @@ class Bank {
         df.setMaximumFractionDigits(2);
         Path path = Paths.get("JavaBankDir\\" + username + ".txt");
         BasicFileAttributes attr;
-
         try {
-            balance = getBalance();
+            balance = getFileBalance();
             attr = Files.readAttributes(path, BasicFileAttributes.class);
             Duration res = Duration.between(attr.lastModifiedTime().toInstant(), Instant.now());
             toSec = res.getSeconds();
@@ -137,16 +167,16 @@ class Bank {
             Error("error");
         }
         //double j = (((((float) toSec / 60) / 60) / 24) / 365);
-        double j = (((float) toSec / 60) / 60);
+        double j = ((((float) toSec / 60) / 60) / 24);
         newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance));
         changeBalance(String.valueOf(newBalance));
         return newBalance;
     }
 
-    public void changeBalance (String newBalanceP) {
+    public void changeBalance(String newBalanceP) {
         String filePath = "JavaBankDir\\" + username + ".txt";
         try {
-            balance = getBalance();
+            balance = getFileBalance();
             Scanner sc = new Scanner(new File(filePath));
             StringBuilder buffer = new StringBuilder();
             while (sc.hasNextLine()) {
@@ -157,7 +187,6 @@ class Bank {
             sc.close();
             fileContents = fileContents.replaceAll(String.valueOf(balance), newBalanceP);
             FileWriter writer = new FileWriter(filePath);
-            System.out.println();
             System.out.println("new data: " + fileContents);
             writer.append(fileContents);
             writer.flush();
@@ -166,45 +195,18 @@ class Bank {
         }
     }
 
-    public void deposit (int depositAmount) {
-        String filePath = "JavaBankDir\\" + username + ".txt";
+    public double getFileBalance() {
         try {
-            balance = getBalance();
-            double newBalance = balance + depositAmount;
-            // input the file content to the StringBuffer "input"
-            BufferedReader file = new BufferedReader(new FileReader(filePath));
-            StringBuilder inputBuffer = new StringBuilder();
-            String line;
-            while ((line = file.readLine()) != null) {
-                inputBuffer.append(line);
-                inputBuffer.append('\n');
-            }
-            file.close();
-            String inputStr = inputBuffer.toString();
-
-            // logic to replace lines in the string (could use regex here to be generic)
-            inputStr = inputStr.replace(Double.toString(balance), Double.toString(newBalance));
-
-            // display the new file for debugging
-
-            // write the new string with the replaced line OVER the same file
-            FileOutputStream fileOut = new FileOutputStream(filePath);
-            fileOut.write(inputStr.getBytes());
-            fileOut.close();
-            Successful("deposit");
-            } catch (Exception e) {
-                Error("error");
-            }
+            balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+        } catch (IOException e) {
+            Error("error");
         }
+        return balance;
+    }
 
-        public void setUsername (String username) {
-            this.username = username;
-        }
-
-        public double getBalance () {
-            getInformation();
-            return balance;
-        }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public void Error(String errorMessage) { //pulls up error messages
         switch (errorMessage) {
@@ -227,7 +229,7 @@ class Bank {
         }
     }
 
-    public void Successful (String successfulMessage) {
+    public void Successful(String successfulMessage) {
         switch (successfulMessage) {
             case "deposit" -> {
                 JOptionPane.showMessageDialog(null, "Successfully Deposited.", "Alert", JOptionPane.WARNING_MESSAGE);

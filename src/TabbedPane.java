@@ -235,12 +235,12 @@ public class TabbedPane {
         DepositSliderPanel.setFont((font));
 
         DepositSlider.setFont((font));
-        DepositSlider.setMaximum((int) balance);
-        DepositSlider.setMajorTickSpacing((int) Math.floor(balance /10d));
-        DepositSlider.setMinorTickSpacing((int) Math.floor(balance /20d));
+        DepositSlider.setMaximum((int) Math.round(balance));
+        DepositSlider.setMajorTickSpacing((int) Math.round(balance / 10d));
+        DepositSlider.setMinorTickSpacing((int) Math.round(balance / 20d));
         DepositSlider.setPaintLabels(true);
         DepositSlider.setPaintTicks(true);
-        DepositSlider.setValue((int) (balance/2));
+        DepositSlider.setValue((int) Math.round(balance));
 
         DepositConfirmButton.setFont((font));
         DepositConfirmButton.setText("Confirm");
@@ -255,7 +255,7 @@ public class TabbedPane {
 
         VariableDepositText.setFont((font));
         VariableDepositText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        VariableDepositText.setText("$" + (int) (balance / 2));
+        VariableDepositText.setText("$" + (int) Math.round(balance));
 
         DepositSlider.addChangeListener(e -> VariableDepositText.setText("$" + DepositSlider.getValue()));
 
@@ -348,12 +348,12 @@ public class TabbedPane {
         WithdrawPanel.setFont((font));
 
         WithdrawSlider.setFont((font));
-        WithdrawSlider.setMaximum((int) balance);
-        WithdrawSlider.setMajorTickSpacing((int) Math.floor(balance /10d));
-        WithdrawSlider.setMinorTickSpacing((int) Math.floor(balance /20d));
+        WithdrawSlider.setMaximum((int) Math.round(balance));
+        WithdrawSlider.setMajorTickSpacing((int) Math.round(balance / 10d));
+        WithdrawSlider.setMinorTickSpacing((int) Math.round(balance / 20d));
         WithdrawSlider.setPaintLabels(true);
         WithdrawSlider.setPaintTicks(true);
-        WithdrawSlider.setValue((int) (balance /2));
+        WithdrawSlider.setValue((int) Math.round(balance));
 
         WithdrawConfirmButton.setFont((font));
         WithdrawConfirmButton.setText("Confirm");
@@ -365,7 +365,7 @@ public class TabbedPane {
 
         VariableWithdrawText.setFont((font));
         VariableWithdrawText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        VariableWithdrawText.setText("$" + (int) (balance / 2));
+        VariableWithdrawText.setText("$" + (int) Math.round(balance));
 
         WithdrawSlider.addChangeListener(e -> VariableWithdrawText.setText("$" + WithdrawSlider.getValue()));
 
@@ -458,17 +458,17 @@ public class TabbedPane {
         TransferPanel.setFont((font));
 
         TransferSlider.setFont((font));
-        TransferSlider.setMaximum((int) balance);
-        TransferSlider.setMajorTickSpacing((int) Math.floor(balance /10d));
-        TransferSlider.setMinorTickSpacing((int) Math.floor(balance /20d));
+        TransferSlider.setMaximum((int) Math.round(balance));
+        TransferSlider.setMajorTickSpacing((int) Math.round(balance / 10d));
+        TransferSlider.setMinorTickSpacing((int) Math.round(balance / 20d));
         TransferSlider.setPaintLabels(true);
         TransferSlider.setPaintTicks(true);
-        TransferSlider.setValue((int) (balance /2));
+        TransferSlider.setValue((int) Math.round(balance));
 
 
         VariableTransferText1.setFont((font));
         VariableTransferText1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        VariableTransferText1.setText("$" + (int) (balance / 2));
+        VariableTransferText1.setText("$" + (int) Math.round(balance));
 
         TransferSlider.addChangeListener(e -> VariableTransferText1.setText("$" + TransferSlider.getValue()));
 
@@ -713,8 +713,8 @@ public class TabbedPane {
         LogOutButton.setText("Log Out");
         LogOutButton.addActionListener(e -> {
             System.out.println("intro");
-            //Intro intro = new Intro();
-            //intro.intro();
+            Intro intro = new Intro();
+            intro.intro();
 
         });
 
