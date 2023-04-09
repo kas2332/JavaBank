@@ -227,7 +227,7 @@ class Bank {
         this.username = username;
     }
 
-    public String setTransactionToNA () {
+    public String setTransactionToNA() {
         return "No Previous Transactions Available";
     }
 
