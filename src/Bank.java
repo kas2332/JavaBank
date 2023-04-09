@@ -17,6 +17,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Stream;
 
 class Bank {
     final double startingBalance = 50.00;
@@ -113,18 +114,17 @@ class Bank {
         }
     }
 
-    public List<String> getNames () {
+    public List<String> getNamesList() {
         Path dir = Paths.get("JavaBankDir");
-        try {
-            Files.walk(dir).forEach(path -> showFile(path.toFile()));
+        try (Stream<Path> fileStream = Files.walk(dir)) {
+            fileStream.forEach(path -> getNameFromFile(path.toFile()));
             return namesList;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void showFile(File file) {
+    public void getNameFromFile(File file) {
         if (!file.isDirectory()) {
             try {
                 namesList.add(Files.readAllLines(Paths.get(String.valueOf(file))).get(0));
@@ -181,7 +181,6 @@ class Bank {
             Error("resetError");
         }
         //double j = (((((float) toSec / 60) / 60) / 24) / 365);
-        //double j = ((((float) toSec / 60) / 60) / 24);
         double j = (((float) toSec / 60) / 60);
         newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance));
         changeFileValue(String.valueOf(balance), String.valueOf(newBalance));
