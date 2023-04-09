@@ -16,16 +16,14 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 class Bank {
     final double startingBalance = 50.00;
     Random rand = new Random(); //helps set up a random int
     double balance; //creates an initial startingBalance of $50
     String FilePass, username, password, confirm, fullName, accountNumberString, transaction1, transaction2, transaction3;
+    List<String> namesList = new ArrayList<>();
     Intro intro = new Intro();
     TabbedPane tabbedPane = new TabbedPane();
 
@@ -115,20 +113,21 @@ class Bank {
         }
     }
 
-    public void getNames () {
+    public List<String> getNames () {
         Path dir = Paths.get("JavaBankDir");
         try {
             Files.walk(dir).forEach(path -> showFile(path.toFile()));
-        } catch (IOException e) {
+            return namesList;
+        }
+        catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void showFile(File file) {
         if (!file.isDirectory()) {
-            System.out.println("File: " + file.getAbsolutePath());
             try {
-                System.out.println(Files.readAllLines(Paths.get(String.valueOf(file))).get(0));
+                namesList.add(Files.readAllLines(Paths.get(String.valueOf(file))).get(0));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
