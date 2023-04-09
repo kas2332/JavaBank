@@ -14,6 +14,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -101,15 +103,14 @@ class Bank {
         }
     }
 
-    public void changeBalance(int changeAmount) {
+    public void changeBalance(int changeAmount, String descriptionP) {
         getInformation();
         double newBalance = balance + changeAmount;
         if (newBalance < 1) {
             Error("insufficientFunds");
             Successful("");
         } else {
-            System.out.println(newBalance);
-            changeFileValue(String.valueOf(balance), String.valueOf(newBalance));
+            changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionP);
             Successful("Transaction Completed");
         }
     }
@@ -177,11 +178,35 @@ class Bank {
                 buffer.append(sc.nextLine()).append(System.lineSeparator());
             }
             String fileContents = buffer.toString();
-            //System.out.println("Contents of the file: " + fileContents);
             sc.close();
             fileContents = fileContents.replaceAll(originalValue, newValue);
             FileWriter writer = new FileWriter(filePath);
-            //System.out.println("new data: " + fileContents);
+            writer.append(fileContents);
+            writer.flush();
+        } catch (Exception e) {
+            Error("resetError");
+        }
+    }
+
+    public void changeFileValue(String originalValue, String newValue, String descriptionP) {
+        String filePath = "JavaBankDir\\" + username + ".txt";
+        LocalDateTime d = LocalDateTime.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy: HH:mm:ss");
+        try {
+            Scanner sc = new Scanner(new File(filePath));
+            StringBuilder buffer = new StringBuilder();
+            int lineNum = 0;
+            while (sc.hasNextLine()) {
+                buffer.append(sc.nextLine()).append(System.lineSeparator());
+                if (lineNum == 3) {
+                    buffer.append(d.format(dateFormatter)).append(descriptionP).append(System.lineSeparator());
+                }
+                lineNum++;
+            }
+            String fileContents = buffer.toString();
+            sc.close();
+            fileContents = fileContents.replaceAll(originalValue, newValue);
+            FileWriter writer = new FileWriter(filePath);
             writer.append(fileContents);
             writer.flush();
         } catch (Exception e) {

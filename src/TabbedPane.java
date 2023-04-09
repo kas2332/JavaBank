@@ -249,7 +249,7 @@ public class TabbedPane {
             bank.setUsername(username);
             //bank.setBalance(balance);
             frame.dispose();
-            bank.changeBalance(depositAmount);
+            bank.changeBalance(depositAmount, "\tDeposited " + depositAmount + " dollars");
         });
 
         VariableDepositText.setFont((font));
@@ -361,7 +361,7 @@ public class TabbedPane {
             bank.setUsername(username);
             //bank.setBalance(balance);
             frame.dispose();
-            bank.changeBalance(withdrawAmount);
+            bank.changeBalance(withdrawAmount, "\tWithdrew " + (withdrawAmount) + " dollars");
         });
 
         VariableWithdrawText.setFont((font));
