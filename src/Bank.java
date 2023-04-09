@@ -167,27 +167,27 @@ class Bank {
             Error("error");
         }
         //double j = (((((float) toSec / 60) / 60) / 24) / 365);
-        double j = ((((float) toSec / 60) / 60) / 24);
+        //double j = ((((float) toSec / 60) / 60) / 24);
+        double j = (((float) toSec / 60) / 60);
         newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance));
-        changeBalance(String.valueOf(newBalance));
+        changeFileValue(String.valueOf(balance), String.valueOf(newBalance));
         return newBalance;
     }
 
-    public void changeBalance(String newBalanceP) {
+    public void changeFileValue (String originalValue, String newValue) {
         String filePath = "JavaBankDir\\" + username + ".txt";
         try {
-            balance = getFileBalance();
             Scanner sc = new Scanner(new File(filePath));
             StringBuilder buffer = new StringBuilder();
             while (sc.hasNextLine()) {
                 buffer.append(sc.nextLine()).append(System.lineSeparator());
             }
             String fileContents = buffer.toString();
-            System.out.println("Contents of the file: " + fileContents);
+            //System.out.println("Contents of the file: " + fileContents);
             sc.close();
-            fileContents = fileContents.replaceAll(String.valueOf(balance), newBalanceP);
+            fileContents = fileContents.replaceAll(originalValue, newValue);
             FileWriter writer = new FileWriter(filePath);
-            System.out.println("new data: " + fileContents);
+            //System.out.println("new data: " + fileContents);
             writer.append(fileContents);
             writer.flush();
         } catch (Exception e) {
