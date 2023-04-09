@@ -115,6 +115,26 @@ class Bank {
         }
     }
 
+    public void getNames () {
+        Path dir = Paths.get("JavaBankDir");
+        try {
+            Files.walk(dir).forEach(path -> showFile(path.toFile()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void showFile(File file) {
+        if (!file.isDirectory()) {
+            System.out.println("File: " + file.getAbsolutePath());
+            try {
+                System.out.println(Files.readAllLines(Paths.get(String.valueOf(file))).get(0));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public void getInformation() {
         try {
             List<String> fileLines = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt"));
