@@ -3,7 +3,10 @@
 //Upgraded Banking account
 
 import javax.swing.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,7 +36,7 @@ class Bank {
         if (!(new File("JavaBankDir").exists())) {    //checks to see if there is a directory to store account information
             boolean dirMade = (new File("JavaBankDir")).mkdir(); //creates a directory
             if (!dirMade) {
-                Error("dirError");
+                Error("resetError");
             }
         }
         intro.intro();    //pulls up the intro jframe
@@ -64,7 +67,7 @@ class Bank {
                     getInformation();
                     tabbedPane.tabbedPane(username);    //pulls up the main jframe
                 } catch (IOException e) {    //If I can't write in a file/make a file
-                    Error("error"); //sends a generic error message
+                    Error("resetError"); //sends a generic error message
                     intro.intro();  //pulls up intro jframe
                 }
             }
@@ -85,7 +88,7 @@ class Bank {
                 try {
                     FilePass = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(2); //pulls up the third line of the text file which is the password
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    Error("resetError");
                 }
                 if (!password.equals(FilePass)) { //checks if the passwords match
                     Error("incorrect password"); //sends an error message that the password(/username) is incorrect
@@ -98,34 +101,16 @@ class Bank {
         }
     }
 
-    public void deposit(int depositAmount) {
-        String filePath = "JavaBankDir\\" + username + ".txt";
-        try {
-            getInformation();
-            double newBalance = balance + depositAmount;
-            // input the file content to the StringBuffer "input"
-            BufferedReader file = new BufferedReader(new FileReader(filePath));
-            StringBuilder inputBuffer = new StringBuilder();
-            String line;
-            while ((line = file.readLine()) != null) {
-                inputBuffer.append(line);
-                inputBuffer.append('\n');
-            }
-            file.close();
-            String inputStr = inputBuffer.toString();
-
-            // logic to replace lines in the string (could use regex here to be generic)
-            inputStr = inputStr.replace(Double.toString(balance), Double.toString(newBalance));
-
-            // display the new file for debugging
-
-            // write the new string with the replaced line OVER the same file
-            FileOutputStream fileOut = new FileOutputStream(filePath);
-            fileOut.write(inputStr.getBytes());
-            fileOut.close();
-            Successful("deposit");
-        } catch (Exception e) {
-            Error("error");
+    public void changeBalance(int changeAmount) {
+        getInformation();
+        double newBalance = balance + changeAmount;
+        if (newBalance < 1) {
+            Error("insufficientFunds");
+            Successful("");
+        } else {
+            System.out.println(newBalance);
+            changeFileValue(String.valueOf(balance), String.valueOf(newBalance));
+            Successful("Transaction Completed");
         }
     }
 
@@ -146,8 +131,17 @@ class Bank {
                     }
                 }
             }
+            if (transaction1 == null || transaction1.equals(" ")) {
+                transaction1 = setTransactionToNA();
+            }
+            if (transaction2 == null || transaction2.equals(" ")) {
+                transaction2 = setTransactionToNA();
+            }
+            if (transaction3 == null || transaction3.equals(" ")) {
+                transaction3 = setTransactionToNA();
+            }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Error("resetError");
         }
     }
 
@@ -164,7 +158,7 @@ class Bank {
             Duration res = Duration.between(attr.lastModifiedTime().toInstant(), Instant.now());
             toSec = res.getSeconds();
         } catch (Exception e) {
-            Error("error");
+            Error("resetError");
         }
         //double j = (((((float) toSec / 60) / 60) / 24) / 365);
         //double j = ((((float) toSec / 60) / 60) / 24);
@@ -174,7 +168,7 @@ class Bank {
         return newBalance;
     }
 
-    public void changeFileValue (String originalValue, String newValue) {
+    public void changeFileValue(String originalValue, String newValue) {
         String filePath = "JavaBankDir\\" + username + ".txt";
         try {
             Scanner sc = new Scanner(new File(filePath));
@@ -191,7 +185,7 @@ class Bank {
             writer.append(fileContents);
             writer.flush();
         } catch (Exception e) {
-            Error("error");
+            Error("resetError");
         }
     }
 
@@ -199,13 +193,17 @@ class Bank {
         try {
             balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
         } catch (IOException e) {
-            Error("error");
+            Error("resetError");
         }
         return balance;
     }
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String setTransactionToNA () {
+        return "No Previous Transactions Available";
     }
 
     public void Error(String errorMessage) { //pulls up error messages
@@ -220,37 +218,25 @@ class Bank {
                     JOptionPane.showMessageDialog(null, "Error, passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
             case "error" ->
                     JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
-            case "dirError" -> {
+            case "resetError" -> {
                 JOptionPane.showMessageDialog(null, "Sorry, something went wrong. Please try again later.", "Error", JOptionPane.ERROR_MESSAGE);
                 System.exit(-1);
             }
             case "null field" ->
                     JOptionPane.showMessageDialog(null, "Please fill all text fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            case "insufficientFunds" ->
+                    JOptionPane.showMessageDialog(null, "Error, transaction would leave the account with insufficient funds.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     public void Successful(String successfulMessage) {
         switch (successfulMessage) {
-            case "deposit" -> {
-                JOptionPane.showMessageDialog(null, "Successfully Deposited.", "Alert", JOptionPane.WARNING_MESSAGE);
-                getInformation();
-                tabbedPane.tabbedPane(username);
-            }
-            case "withdraw" -> {
-                JOptionPane.showMessageDialog(null, "Successfully Withdrawn.", "Alert", JOptionPane.WARNING_MESSAGE);
-                getInformation();
-                tabbedPane.tabbedPane(username);
-            }
-            case "transfer" -> {
-                JOptionPane.showMessageDialog(null, "Successfully Transferred.", "Alert", JOptionPane.WARNING_MESSAGE);
-                getInformation();
-                tabbedPane.tabbedPane(username);
-            }
-            case "change" -> {
-                JOptionPane.showMessageDialog(null, "Successfully Changed.", "Alert", JOptionPane.WARNING_MESSAGE);
-                getInformation();
-                tabbedPane.tabbedPane(username);
-            }
+            case "Transaction Completed" ->
+                    JOptionPane.showMessageDialog(null, "Transaction Successfully Completed.", "Alert", JOptionPane.WARNING_MESSAGE);
+            case "change" ->
+                    JOptionPane.showMessageDialog(null, "Account Information Changed Successfully.", "Alert", JOptionPane.WARNING_MESSAGE);
         }
+        getInformation();
+        tabbedPane.tabbedPane(username);
     }
 }

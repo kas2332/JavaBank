@@ -22,9 +22,9 @@ public class TabbedPane {
         this.fullName = bank.fullName;
         this.accountNumber = bank.accountNumberString;
         this.balance = bank.balance;
-        this.transaction1 = bank.transaction1;
-        this.transaction2 = bank.transaction2;
-        this.transaction3 = bank.transaction3;
+        this.transaction1 = String.valueOf(bank.transaction1);
+        this.transaction2 = String.valueOf(bank.transaction2);
+        this.transaction3 = String.valueOf(bank.transaction3);
 
         //<editor-fold desc="Set the Nimbus look and feel">
         try {
@@ -210,7 +210,7 @@ public class TabbedPane {
         DepositQuestionPanel.setFont((font));
 
         DepositQuestionText.setFont((font));
-        DepositQuestionText.setText("How much do you want to deposit?");
+        DepositQuestionText.setText("How much do you want to Deposit?");
 
         //<editor-fold desc="DO NOT TOUCH, DepositQuestionPaneLayout">
         javax.swing.GroupLayout DepositQuestionPanelLayout = new javax.swing.GroupLayout(DepositQuestionPanel);
@@ -249,8 +249,7 @@ public class TabbedPane {
             bank.setUsername(username);
             //bank.setBalance(balance);
             frame.dispose();
-            bank.deposit(depositAmount);
-            System.out.println("Deposit amount: " + depositAmount);
+            bank.changeBalance(depositAmount);
         });
 
         VariableDepositText.setFont((font));
@@ -358,9 +357,11 @@ public class TabbedPane {
         WithdrawConfirmButton.setFont((font));
         WithdrawConfirmButton.setText("Confirm");
         WithdrawConfirmButton.addActionListener(e -> {
-            withdrawAmount = WithdrawSlider.getValue();
-            //Withdraw Money
-            System.out.println("Withdraw amount: " + withdrawAmount);
+            withdrawAmount = (WithdrawSlider.getValue() * -1);
+            bank.setUsername(username);
+            //bank.setBalance(balance);
+            frame.dispose();
+            bank.changeBalance(withdrawAmount);
         });
 
         VariableWithdrawText.setFont((font));
@@ -712,7 +713,8 @@ public class TabbedPane {
         LogOutButton.setFont((font));
         LogOutButton.setText("Log Out");
         LogOutButton.addActionListener(e -> {
-            System.out.println("intro");
+            bank.setUsername("null");
+            frame.dispose();
             Intro intro = new Intro();
             intro.intro();
 
