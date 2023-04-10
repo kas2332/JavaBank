@@ -24,7 +24,7 @@ class Bank {
     Random rand = new Random(); //helps set up a random int
     double balance; //creates an initial startingBalance of $50
     String FilePass, username, password, confirm, fullName, accountNumberString, transaction1, transaction2, transaction3;
-    List<String> namesList = new ArrayList<>();
+    List<String> namesList = new ArrayList<>(), userNamesList = new ArrayList<>();
     Intro intro = new Intro();
     TabbedPane tabbedPane = new TabbedPane();
 
@@ -114,24 +114,58 @@ class Bank {
         }
     }
 
-    public String[] getNamesList() {
-        Path dir = Paths.get("JavaBankDir");
-        namesList.add("");
-        try (Stream<Path> fileStream = Files.walk(dir)) {
-            fileStream.forEach(path -> getNameFromFile(path.toFile()));
-            return namesList.toArray(new String[0]);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    public void transfer(int transferAmountP, int transfereeNameIndex) {
+        String descriptionTransferer = "Transferred " + transferAmountP + " dollars to " + namesList.get(transfereeNameIndex);
+        String descriptionTransferee = fullName + " transferred " + transferAmountP + " dollars";
+        String storeUsersUsername = username;
+        getInformation();
+        double newBalance = balance + (-1 * transferAmountP);
+        if (newBalance < 1) {
+            Error("insufficientFunds");
+            Successful("");
+        } else {
+            changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionTransferer);
+            username = userNamesList.get(transfereeNameIndex);
+            getInformation();
+            newBalance = balance + transferAmountP;
+            changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionTransferee);
+            username = storeUsersUsername;
+            getInformation();
+            Successful("Transaction Completed");
         }
     }
 
-    public void getNameFromFile(File file) {
-        if (!file.isDirectory()) {
-            try {
-                namesList.add(Files.readAllLines(Paths.get(String.valueOf(file))).get(0));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+    public String removeExtension(Path pathP) {
+        String fileName = pathP.toFile().getName();
+        int pos = fileName.lastIndexOf(".");
+        if (pos > 0 && pos < (fileName.length() - 1)) { // If '.' is not the first or last character.
+            fileName = fileName.substring(0, pos);
+        }
+        return fileName;
+    }
+
+    public String[] getNamesList() {
+        Path dir = Paths.get("JavaBankDir");
+        namesList.clear();
+        namesList.add("");
+        userNamesList.clear();
+        userNamesList.add("");
+        try (Stream<Path> fileStream = Files.walk(dir)) {
+            fileStream.forEach(path -> {
+                if (!(path.toFile()).isDirectory()) {
+                    if (!username.equals(removeExtension(path))) {
+                        try {
+                            namesList.add(Files.readAllLines(Paths.get(String.valueOf(path.toFile()))).get(0));
+                            userNamesList.add(removeExtension(path));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            });
+            return namesList.toArray(new String[0]);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

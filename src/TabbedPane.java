@@ -363,7 +363,7 @@ public class TabbedPane {
             bank.setUsername(username);
             //bank.setBalance(balance);
             frame.dispose();
-            bank.changeBalance(withdrawAmount, "\tWithdrew " + (withdrawAmount) + " dollars");
+            bank.changeBalance(withdrawAmount, "\tWithdrew " + (-1 * withdrawAmount) + " dollars");
         });
 
         VariableWithdrawText.setFont((font));
@@ -543,8 +543,8 @@ public class TabbedPane {
             transferAmount = TransferSlider.getValue();
             transfereeNameIndex = TransfereeComboBox.getSelectedIndex();
             tranfereeName = namesArray[transfereeNameIndex];
-            //Transfer Money
-            System.out.println("Transfer amount: " + transferAmount + "\tTransferee account number: " + tranfereeName);
+            frame.dispose();
+            bank.transfer(transferAmount, transfereeNameIndex);
         });
 
         //<editor-fold desc="DO NOT TOUCH, TransferTabLayout">
