@@ -59,11 +59,11 @@ public class Intro extends javax.swing.JFrame {
 
         LogInUsernameText.setFont(font);
         LogInUsernameText.setText("Username");
-        //LogInUsernameField.setFont(font);
+        LogInUsernameField.setFont(font);
 
         LogInPasswordText.setFont(font);
         LogInPasswordText.setText("Password");
-        //LogInPasswordField.setFont(font);
+        LogInPasswordField.setFont(font);
 
         LogInButton.setFont(font);
         LogInButton.setText("Log In");

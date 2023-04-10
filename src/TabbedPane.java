@@ -5,9 +5,10 @@ public class TabbedPane {
     //import variables
     String username = "kass", fullName = "fullName", accountNumber = "000000", transaction1 = "1", transaction2 = "2", transaction3 = "3";
     double balance = 101;
+    String[] namesArray;
     //export variables
-    int depositAmount, withdrawAmount, transferAmount, tranfereeAccountNumber;
-    String newFullName, newUsername, newPassword;
+    int depositAmount, withdrawAmount, transferAmount, transfereeNameIndex;
+    String newFullName, newUsername, newPassword, tranfereeName;
 
     public static void main(String[] args) {
         TabbedPane tabbedPane = new TabbedPane();
@@ -25,6 +26,7 @@ public class TabbedPane {
         this.transaction1 = String.valueOf(bank.transaction1);
         this.transaction2 = String.valueOf(bank.transaction2);
         this.transaction3 = String.valueOf(bank.transaction3);
+        this.namesArray = bank.getNamesList();
 
         //<editor-fold desc="Set the Nimbus look and feel">
         try {
@@ -76,9 +78,9 @@ public class TabbedPane {
         JPanel TransferPanel = new javax.swing.JPanel();
         JSlider TransferSlider = new javax.swing.JSlider();
         JLabel VariableTransferText1 = new javax.swing.JLabel();
-        JPanel TransfereeAccountPanel = new javax.swing.JPanel();
-        JLabel TransfereeAccountText = new javax.swing.JLabel();
-        JTextField TransfereeAccountField = new javax.swing.JTextField();
+        JPanel TransfereeNamePanel = new javax.swing.JPanel();
+        JLabel TransfereeNameText = new javax.swing.JLabel();
+        JComboBox<String> TransfereeComboBox = new javax.swing.JComboBox<>();
         JButton TransferConfirmButton = new javax.swing.JButton();
         JPanel AccountTab = new javax.swing.JPanel();
         JPanel AccountPanel = new javax.swing.JPanel();
@@ -496,37 +498,41 @@ public class TabbedPane {
         );
         //</editor-fold>
 
-        TransfereeAccountPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferee Account", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font));// NOI18N
-        TransfereeAccountPanel.setFont((font));
+        TransfereeNamePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferee Information", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font));// NOI18N
+        TransfereeNamePanel.setFont((font));
 
-        TransfereeAccountText.setFont((font));
-        TransfereeAccountText.setText("Transferee Account Number");
+        TransfereeNameText.setFont((font));
+        TransfereeNameText.setText("Transferee's Full Name");
 
-        TransfereeAccountField.setFont((font));
-        TransfereeAccountField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        TransfereeComboBox.setFont((font));
 
-        //<editor-fold desc="DO NOT TOUCH, TransfereeAccountPanelLayout">
-        javax.swing.GroupLayout TransfereeAccountPanelLayout = new javax.swing.GroupLayout(TransfereeAccountPanel);
-        TransfereeAccountPanel.setLayout(TransfereeAccountPanelLayout);
-        TransfereeAccountPanelLayout.setHorizontalGroup(
-                TransfereeAccountPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(TransfereeAccountPanelLayout.createSequentialGroup()
+        BoundsPopupMenuListener listener = new BoundsPopupMenuListener();
+        TransfereeComboBox.addPopupMenuListener(listener);
+
+        TransfereeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(namesArray));
+
+        //<editor-fold desc="DO NOT TOUCH, TransfereeNamePanelLayout">
+        javax.swing.GroupLayout TransfereeNamePanelLayout = new javax.swing.GroupLayout(TransfereeNamePanel);
+        TransfereeNamePanel.setLayout(TransfereeNamePanelLayout);
+        TransfereeNamePanelLayout.setHorizontalGroup(
+                TransfereeNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(TransfereeNamePanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(TransfereeAccountPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(TransfereeAccountPanelLayout.createSequentialGroup()
+                                .addGroup(TransfereeNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(TransfereeNamePanelLayout.createSequentialGroup()
                                                 .addGap(0, 0, Short.MAX_VALUE)
-                                                .addComponent(TransfereeAccountText)
+                                                .addComponent(TransfereeNameText)
                                                 .addGap(0, 0, Short.MAX_VALUE))
-                                        .addComponent(TransfereeAccountField, javax.swing.GroupLayout.Alignment.TRAILING))
+                                        .addComponent(TransfereeComboBox, javax.swing.GroupLayout.Alignment.TRAILING))
                                 .addContainerGap())
         );
-        TransfereeAccountPanelLayout.setVerticalGroup(
-                TransfereeAccountPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(TransfereeAccountPanelLayout.createSequentialGroup()
+        TransfereeNamePanelLayout.setVerticalGroup(
+                TransfereeNamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(TransfereeNamePanelLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(TransfereeAccountText)
+                                .addComponent(TransfereeNameText)
                                 .addGap(18, 18, 18)
-                                .addComponent(TransfereeAccountField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TransfereeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         //</editor-fold>
@@ -535,9 +541,10 @@ public class TabbedPane {
         TransferConfirmButton.setText("Confirm");
         TransferConfirmButton.addActionListener(e -> {
             transferAmount = TransferSlider.getValue();
-            tranfereeAccountNumber = Integer.parseInt(TransfereeAccountField.getText());
+            transfereeNameIndex = TransfereeComboBox.getSelectedIndex();
+            tranfereeName = namesArray[transfereeNameIndex];
             //Transfer Money
-            System.out.println("Transfer amount: " + transferAmount + "\tTransferee account number: " + tranfereeAccountNumber);
+            System.out.println("Transfer amount: " + transferAmount + "\tTransferee account number: " + tranfereeName);
         });
 
         //<editor-fold desc="DO NOT TOUCH, TransferTabLayout">
@@ -554,7 +561,7 @@ public class TabbedPane {
                                                 .addGap(0, 135, Short.MAX_VALUE))
                                         .addComponent(TransferPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(TransferTabLayout.createSequentialGroup()
-                                                .addComponent(TransfereeAccountPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(TransfereeNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, Short.MAX_VALUE)
                                                 .addComponent(TransferConfirmButton)
                                                 .addGap(0, 0, Short.MAX_VALUE)))
@@ -570,7 +577,7 @@ public class TabbedPane {
                                 .addGroup(TransferTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(TransferTabLayout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
-                                                .addComponent(TransfereeAccountPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(TransfereeNamePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(TransferTabLayout.createSequentialGroup()
                                                 .addGap(60, 60, 60)
                                                 .addComponent(TransferConfirmButton)))

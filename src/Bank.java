@@ -114,11 +114,12 @@ class Bank {
         }
     }
 
-    public List<String> getNamesList() {
+    public String[] getNamesList() {
         Path dir = Paths.get("JavaBankDir");
+        namesList.add("");
         try (Stream<Path> fileStream = Files.walk(dir)) {
             fileStream.forEach(path -> getNameFromFile(path.toFile()));
-            return namesList;
+            return namesList.toArray(new String[0]);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
