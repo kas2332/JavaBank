@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -197,30 +198,29 @@ class Bank {
         try {
             List<String> fileLines = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt"));
             int numLines = fileLines.size();
-            fullName = fileLines.get(0);
-            accountNumberString = fileLines.get(1);
-            password = fileLines.get(2);
+            fullName = fileLines.get(0).trim();
+            accountNumberString = fileLines.get(1).trim();
+            password = fileLines.get(2).trim();
             balance = getInterest();
             if (numLines > 4) {
-                transaction1 = fileLines.get(4);
+                transaction1 = fileLines.get(4).trim();
                 if (numLines > 5) {
-                    transaction2 = fileLines.get(5);
+                    transaction2 = fileLines.get(5).trim();
                     if (numLines > 6) {
-                        transaction3 = fileLines.get(6);
+                        transaction3 = fileLines.get(6).trim();
                     }
                 }
             }
-            if (transaction1 == null || transaction1.equals(" ")) {
+            if (transaction1 == null || transaction1.equals("")) {
                 transaction1 = setTransactionToNA();
             }
-            if (transaction2 == null || transaction2.equals(" ")) {
+            if (transaction2 == null || transaction2.equals("")) {
                 transaction2 = setTransactionToNA();
             }
-            if (transaction3 == null || transaction3.equals(" ")) {
+            if (transaction3 == null || transaction3.equals("")) {
                 transaction3 = setTransactionToNA();
             }
         } catch (IOException e) {
-            System.out.println(1);
             Error("resetError");
         }
     }
@@ -228,7 +228,8 @@ class Bank {
     public double getInterest() {
         double newBalance;
         long toSec = 0;
-        DecimalFormat df = new DecimalFormat();
+        NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
+        DecimalFormat df = (DecimalFormat) nf;
         df.setMaximumFractionDigits(2);
         Path path = Paths.get("JavaBankDir\\" + username + ".txt");
         BasicFileAttributes attr;
@@ -243,7 +244,7 @@ class Bank {
         }
         //double j = (((((float) toSec / 60) / 60) / 24) / 365);
         double j = (((float) toSec / 60) / 60);
-        newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance));
+        newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance).replace(",", ""));
         changeFileValue(String.valueOf(newBalance), 3);
         return newBalance;
     }
@@ -258,16 +259,7 @@ class Bank {
             }
             String fileContents = buffer.toString();
             String[] fileContentsArray = fileContents.split("\n");
-//            System.out.println("----------");
-//            for (String i: fileContentsArray) {
-//                System.out.println(i);
-//            }
-//            System.out.println("----------");
             fileContentsArray[lineNumber] = newValue + "\n";
-//            for (String i: fileContentsArray) {
-//                System.out.println(i);
-//            }
-//            System.out.println("----------");
             sc.close();
 
             FileWriter writer = new FileWriter(filePath);
@@ -314,7 +306,6 @@ class Bank {
         try {
             balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
         } catch (IOException e) {
-            System.out.println(5);
             Error("resetError");
         }
         return balance;

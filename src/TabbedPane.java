@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class TabbedPane {
     //import variables
@@ -204,6 +205,7 @@ public class TabbedPane {
         //</editor-fold>
 
         TabbedPane.addTab("Home", HomeTab);
+        TabbedPane.setMnemonicAt(0, KeyEvent.VK_H);
         //</editor-fold>
 
         //<editor-fold desc="Deposit Tab Code">
@@ -316,6 +318,7 @@ public class TabbedPane {
         //</editor-fold>
 
         TabbedPane.addTab("Deposit", DepositTab);
+        TabbedPane.setMnemonicAt(1, KeyEvent.VK_D);
         //</editor-fold>
 
         //<editor-fold desc="Withdraw Tab Code">
@@ -428,6 +431,7 @@ public class TabbedPane {
         //</editor-fold>
 
         TabbedPane.addTab("Withdraw", WithdrawTab);
+        TabbedPane.setMnemonicAt(2, KeyEvent.VK_W);
         //</editor-fold>
 
         //<editor-fold desc="Transfer Tab Code">
@@ -586,6 +590,8 @@ public class TabbedPane {
         //</editor-fold>
 
         TabbedPane.addTab("Transfer", TransferTab);
+        TabbedPane.setMnemonicAt(3, KeyEvent.VK_T);
+
         //</editor-fold>
 
         //<editor-fold desc="Account Tab Code">
@@ -763,6 +769,7 @@ public class TabbedPane {
         //</editor-fold>
 
         TabbedPane.addTab("Account", AccountTab);
+        TabbedPane.setMnemonicAt(4, KeyEvent.VK_A);
         //</editor-fold>
 
         //<editor-fold desc="DO NOT TOUCH, GroupLayout">
