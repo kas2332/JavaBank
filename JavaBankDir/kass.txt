@@ -1,8 +1,0 @@
-KassFullName
-698374
-K
-448.66
-Fri, Apr 14 2023: 18:12:37KasFullName1 transferred 4 dollars
-Sun, Apr 09 2023: 21:38:07KasFirstName transferred 15 dollars
-Sun, Apr 09 2023: 21:36:51KasFirstName transferred 1 dollars
-Sun, Apr 09 2023: 21:34:39KasFirstName transferred 9 dollars
