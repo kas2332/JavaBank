@@ -619,11 +619,12 @@ public class TabbedPane {
         ChangeButton.setFont(font);
         ChangeButton.setText("Change");
         ChangeButton.addActionListener(e -> {
-            newUsername = VariableUsernameField.getText();
-            newFullName = VariableFullNameText.getText();
+            newUsername = VariableUsernameField.getText().trim();
+            newFullName = VariableFullNameText.getText().trim();
             //noinspection deprecation
-            newPassword = NewPasswordField.getText();
-            //Change account information
+            newPassword = NewPasswordField.getText().trim();
+            bank.changeInformation(newUsername, newPassword, newFullName);
+            frame.dispose();
             System.out.println("New username: " + newUsername + "\tNew full name: " + newFullName + "\tNew password: " + newPassword);
         });
 

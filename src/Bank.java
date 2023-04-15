@@ -135,6 +135,30 @@ class Bank {
         }
     }
 
+    public void changeInformation(String newUsernameP, String newPasswordP, String newFullNameP) {
+        if (!newPasswordP.equals("")) {
+            changeFileValue(newPasswordP, 2);
+        }
+        if (!newFullNameP.equals(fullName) && !newFullNameP.equals("")) {
+            changeFileValue(newFullNameP, 0);
+        }
+        if (!newUsernameP.equals(username) && !newUsernameP.equals("")) {
+            File oldFileName = new File("JavaBankDir\\" + username + ".txt");
+            File newFileName = new File("JavaBankDir\\" + newUsernameP + ".txt");
+            if (newFileName.exists()) {
+                Error("username taken");
+            } else {
+                try {
+                    Files.move(oldFileName.toPath(), newFileName.toPath());
+                    username = newUsernameP;
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        Successful("");
+    }
+
     public String removeExtension(Path pathP) {
         String fileName = pathP.toFile().getName();
         int pos = fileName.lastIndexOf(".");
@@ -196,6 +220,7 @@ class Bank {
                 transaction3 = setTransactionToNA();
             }
         } catch (IOException e) {
+            System.out.println(1);
             Error("resetError");
         }
     }
@@ -213,16 +238,17 @@ class Bank {
             Duration res = Duration.between(attr.lastModifiedTime().toInstant(), Instant.now());
             toSec = res.getSeconds();
         } catch (Exception e) {
+            System.out.println(2);
             Error("resetError");
         }
         //double j = (((((float) toSec / 60) / 60) / 24) / 365);
         double j = (((float) toSec / 60) / 60);
         newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance));
-        changeFileValue(String.valueOf(balance), String.valueOf(newBalance));
+        changeFileValue(String.valueOf(newBalance), 3);
         return newBalance;
     }
 
-    public void changeFileValue(String originalValue, String newValue) {
+    public void changeFileValue(String newValue, int lineNumber) {
         String filePath = "JavaBankDir\\" + username + ".txt";
         try {
             Scanner sc = new Scanner(new File(filePath));
@@ -231,12 +257,27 @@ class Bank {
                 buffer.append(sc.nextLine()).append(System.lineSeparator());
             }
             String fileContents = buffer.toString();
+            String[] fileContentsArray = fileContents.split("\n");
+//            System.out.println("----------");
+//            for (String i: fileContentsArray) {
+//                System.out.println(i);
+//            }
+//            System.out.println("----------");
+            fileContentsArray[lineNumber] = newValue + "\n";
+//            for (String i: fileContentsArray) {
+//                System.out.println(i);
+//            }
+//            System.out.println("----------");
             sc.close();
-            fileContents = fileContents.replaceAll(originalValue, newValue);
+
             FileWriter writer = new FileWriter(filePath);
-            writer.append(fileContents);
+            for (String i : fileContentsArray) {
+                writer.append(i);
+            }
             writer.flush();
+            writer.close();
         } catch (Exception e) {
+            System.out.println(3);
             Error("resetError");
         }
     }
@@ -262,7 +303,9 @@ class Bank {
             FileWriter writer = new FileWriter(filePath);
             writer.append(fileContents);
             writer.flush();
+            writer.close();
         } catch (Exception e) {
+            System.out.println(4);
             Error("resetError");
         }
     }
@@ -271,6 +314,7 @@ class Bank {
         try {
             balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
         } catch (IOException e) {
+            System.out.println(5);
             Error("resetError");
         }
         return balance;

@@ -68,9 +68,9 @@ public class Intro extends javax.swing.JFrame {
         LogInButton.setFont(font);
         LogInButton.setText("Log In");
         LogInButton.addActionListener(e -> {
-            username = LogInUsernameField.getText();
+            username = LogInUsernameField.getText().trim();
             //noinspection deprecation
-            password = LogInPasswordField.getText();
+            password = LogInPasswordField.getText().trim();
             Bank bank = new Bank();
             bank.logIn(username, password);
             frame.dispose();
@@ -120,12 +120,12 @@ public class Intro extends javax.swing.JFrame {
         SignUpButton.setFont(font);
         SignUpButton.setText("Sign Up");
         SignUpButton.addActionListener(e -> {
-            username = SignUpUsernameField.getText();
+            username = SignUpUsernameField.getText().trim();
             //noinspection deprecation
-            password = SignUpPasswordField.getText();
+            password = SignUpPasswordField.getText().trim();
             //noinspection deprecation
-            confirm = ConfirmField.getText();
-            fullName = FullNameField.getText();
+            confirm = ConfirmField.getText().trim();
+            fullName = FullNameField.getText().trim();
             Bank bank = new Bank();
             bank.signUp(username, password, confirm, fullName);
             frame.dispose();
