@@ -116,23 +116,28 @@ class Bank {
     }
 
     public void transfer(int transferAmountP, int transfereeNameIndex) {
-        String descriptionTransferer = "Transferred " + transferAmountP + " dollars to " + namesList.get(transfereeNameIndex);
-        String descriptionTransferee = fullName + " transferred " + transferAmountP + " dollars";
-        String storeUsersUsername = username;
-        getInformation();
-        double newBalance = balance + (-1 * transferAmountP);
-        if (newBalance < 1) {
-            Error("insufficientFunds");
+        if (namesList.get(transfereeNameIndex).equals("")) {
+            Error("null field");
             Successful("");
         } else {
-            changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionTransferer);
-            username = userNamesList.get(transfereeNameIndex);
+            String descriptionTransferer = "Transferred " + transferAmountP + " dollars to " + namesList.get(transfereeNameIndex);
+            String descriptionTransferee = fullName + " transferred " + transferAmountP + " dollars";
+            String storeUsersUsername = username;
             getInformation();
-            newBalance = balance + transferAmountP;
-            changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionTransferee);
-            username = storeUsersUsername;
-            getInformation();
-            Successful("Transaction Completed");
+            double newBalance = balance + (-1 * transferAmountP);
+            if (newBalance < 1) {
+                Error("insufficientFunds");
+                Successful("");
+            } else {
+                changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionTransferer);
+                username = userNamesList.get(transfereeNameIndex);
+                getInformation();
+                newBalance = balance + transferAmountP;
+                changeFileValue(String.valueOf(balance), String.valueOf(newBalance), descriptionTransferee);
+                username = storeUsersUsername;
+                getInformation();
+                Successful("Transaction Completed");
+            }
         }
     }
 
@@ -336,7 +341,7 @@ class Bank {
                 System.exit(-1);
             }
             case "null field" ->
-                    JOptionPane.showMessageDialog(null, "Please fill all text fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             case "insufficientFunds" ->
                     JOptionPane.showMessageDialog(null, "Error, transaction would leave the account with insufficient funds.", "Error", JOptionPane.ERROR_MESSAGE);
         }
