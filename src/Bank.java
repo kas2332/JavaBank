@@ -18,6 +18,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 class Bank {
@@ -47,6 +49,15 @@ class Bank {
     public void signUp(String usernameP, String passwordP, String confirmP, String fullNameP) { //checks to see if the given information can create an account
         if (usernameP.equals("") || passwordP.equals("") || confirmP.equals("") || fullNameP.equals("")) {
             Error("null field");
+            intro.intro();
+        } else if (usernameIsValid(usernameP)) {
+            Error("invalid username");
+            intro.intro();
+        } else if (Password_Validation(passwordP) || Password_Validation(confirmP)) {
+            Error("invalid password");
+            intro.intro();
+        } else if (nameIsValid(fullNameP)) {
+            Error("invalid name");
             intro.intro();
         } else {
             username = usernameP;
@@ -79,6 +90,12 @@ class Bank {
     public void logIn(String usernameP, String passwordP) { //checks to see if the person can log in
         if (usernameP.equals("") || passwordP.equals("")) {
             Error("null field");
+            intro.intro();
+        } else if (usernameIsValid(usernameP)) {
+            Error("invalid username");
+            intro.intro();
+        } else if (Password_Validation(passwordP)) {
+            Error("invalid password");
             intro.intro();
         } else {
             username = usernameP;
@@ -142,27 +159,42 @@ class Bank {
     }
 
     public void changeInformation(String newUsernameP, String newPasswordP, String newFullNameP) {
-        if (!newPasswordP.equals("")) {
-            changeFileValue(newPasswordP, 2);
-        }
-        if (!newFullNameP.equals(fullName) && !newFullNameP.equals("")) {
-            changeFileValue(newFullNameP, 0);
-        }
-        if (!newUsernameP.equals(username) && !newUsernameP.equals("")) {
-            File oldFileName = new File("JavaBankDir\\" + username + ".txt");
-            File newFileName = new File("JavaBankDir\\" + newUsernameP + ".txt");
-            if (newFileName.exists()) {
-                Error("username taken");
-            } else {
-                try {
-                    Files.move(oldFileName.toPath(), newFileName.toPath());
-                    username = newUsernameP;
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+        if (newUsernameP.equals("") || newFullNameP.equals("")) {
+            Error("null field");
+            getInformation();
+            tabbedPane.tabbedPane(username);
+        } else if (usernameIsValid(newUsernameP)) {
+            Error("invalid username");
+            tabbedPane.tabbedPane(username);
+        } else if (!newPasswordP.equals("") && Password_Validation(newPasswordP)) {
+            Error("invalid password");
+            tabbedPane.tabbedPane(username);
+        } else if (nameIsValid(newFullNameP)) {
+            Error("invalid name");
+            tabbedPane.tabbedPane(username);
+        } else {
+            if (!newPasswordP.equals("")) {
+                changeFileValue(newPasswordP, 2);
+            }
+            if (!newFullNameP.equals(fullName)) {
+                changeFileValue(newFullNameP, 0);
+            }
+            if (!newUsernameP.equals(username)) {
+                File oldFileName = new File("JavaBankDir\\" + username + ".txt");
+                File newFileName = new File("JavaBankDir\\" + newUsernameP + ".txt");
+                if (newFileName.exists()) {
+                    Error("username taken");
+                } else {
+                    try {
+                        Files.move(oldFileName.toPath(), newFileName.toPath());
+                        username = newUsernameP;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+            Successful("");
         }
-        Successful("");
     }
 
     public String removeExtension(Path pathP) {
@@ -324,6 +356,51 @@ class Bank {
         return "No Previous Transactions Available";
     }
 
+    public boolean usernameIsValid(String usernameP) {
+        boolean userNameValid = true;
+        for (int i = 0; i < usernameP.length(); i++) {
+            if (!Character.isLetter(usernameP.charAt(i))) {
+                userNameValid = false;
+            }
+        }
+        return !userNameValid;
+    }
+
+    public boolean Password_Validation(String passwordP) {
+
+        if (passwordP.length() >= 8) {
+            Pattern letter = Pattern.compile("[a-zA-z]");
+            Pattern digit = Pattern.compile("[0-9]");
+            Pattern special = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~-]");
+
+
+            Matcher hasLetter = letter.matcher(passwordP);
+            Matcher hasDigit = digit.matcher(passwordP);
+            Matcher hasSpecial = special.matcher(passwordP);
+
+            return !hasLetter.find() || !hasDigit.find() || !hasSpecial.find();
+
+        } else
+            return true;
+
+    }
+
+    public boolean nameIsValid(String fullNameP) {
+        boolean nameValid = true, space = false;
+        for (int i = 0; i < fullNameP.length(); i++) {
+            if (!Character.isLetter(fullNameP.charAt(i)) && !Character.isSpaceChar(fullNameP.charAt(i))) {
+                nameValid = false;
+            }
+            if (Character.isSpaceChar(fullNameP.charAt(i))) {
+                space = true;
+            }
+        }
+        if (!space) {
+            nameValid = false;
+        }
+        return !nameValid;
+    }
+
     public void Error(String errorMessage) { //pulls up error messages
         switch (errorMessage) {
             case "nonexistent username" ->
@@ -344,6 +421,12 @@ class Bank {
                     JOptionPane.showMessageDialog(null, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
             case "insufficientFunds" ->
                     JOptionPane.showMessageDialog(null, "Error, transaction would leave the account with insufficient funds.", "Error", JOptionPane.ERROR_MESSAGE);
+            case "invalid username" ->
+                    JOptionPane.showMessageDialog(null, "Error, usernames must contain only letters.", "Error", JOptionPane.ERROR_MESSAGE);
+            case "invalid password" ->
+                    JOptionPane.showMessageDialog(null, "Error, passwords must be at least 8 characters long and contain at least one lowercase letter, uppercase letter, and special character", "Error", JOptionPane.ERROR_MESSAGE);
+            case "invalid name" ->
+                    JOptionPane.showMessageDialog(null, "Error, enter first and last name in only letters", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 

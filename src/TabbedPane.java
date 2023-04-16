@@ -631,7 +631,6 @@ public class TabbedPane {
             newPassword = NewPasswordField.getText().trim();
             bank.changeInformation(newUsername, newPassword, newFullName);
             frame.dispose();
-            System.out.println("New username: " + newUsername + "\tNew full name: " + newFullName + "\tNew password: " + newPassword);
         });
 
         //<editor-fold desc="DO NOT TOUCH, AccountPanelLayout">
