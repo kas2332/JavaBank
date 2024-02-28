@@ -47,7 +47,7 @@ class Bank {
     }
 
     public void signUp(String usernameP, String passwordP, String confirmP, String fullNameP) { //checks to see if the given information can create an account
-        if (usernameP.equals("") || passwordP.equals("") || confirmP.equals("") || fullNameP.equals("")) {
+        if (usernameP.isEmpty() || passwordP.isEmpty() || confirmP.isEmpty() || fullNameP.isEmpty()) {
             Error("null field");
             intro.intro();
         } else if (usernameIsValid(usernameP)) {
@@ -88,7 +88,7 @@ class Bank {
     }
 
     public void logIn(String usernameP, String passwordP) { //checks to see if the person can log in
-        if (usernameP.equals("") || passwordP.equals("")) {
+        if (usernameP.isEmpty() || passwordP.isEmpty()) {
             Error("null field");
             intro.intro();
         } else if (usernameIsValid(usernameP)) {
@@ -133,7 +133,7 @@ class Bank {
     }
 
     public void transfer(int transferAmountP, int transfereeNameIndex) {
-        if (namesList.get(transfereeNameIndex).equals("")) {
+        if (namesList.get(transfereeNameIndex).isEmpty()) {
             Error("null field");
             Successful("");
         } else {
@@ -159,21 +159,21 @@ class Bank {
     }
 
     public void changeInformation(String newUsernameP, String newPasswordP, String newFullNameP) {
-        if (newUsernameP.equals("") || newFullNameP.equals("")) {
+        if (newUsernameP.isEmpty() || newFullNameP.isEmpty()) {
             Error("null field");
             getInformation();
             tabbedPane.tabbedPane(username);
         } else if (usernameIsValid(newUsernameP)) {
             Error("invalid username");
             tabbedPane.tabbedPane(username);
-        } else if (!newPasswordP.equals("") && Password_Validation(newPasswordP)) {
+        } else if (!newPasswordP.isEmpty() && Password_Validation(newPasswordP)) {
             Error("invalid password");
             tabbedPane.tabbedPane(username);
         } else if (nameIsValid(newFullNameP)) {
             Error("invalid name");
             tabbedPane.tabbedPane(username);
         } else {
-            if (!newPasswordP.equals("")) {
+            if (!newPasswordP.isEmpty()) {
                 changeFileValue(newPasswordP, 2);
             }
             if (!newFullNameP.equals(fullName)) {
@@ -248,13 +248,13 @@ class Bank {
                     }
                 }
             }
-            if (transaction1 == null || transaction1.equals("")) {
+            if (transaction1 == null || transaction1.isEmpty()) {
                 transaction1 = setTransactionToNA();
             }
-            if (transaction2 == null || transaction2.equals("")) {
+            if (transaction2 == null || transaction2.isEmpty()) {
                 transaction2 = setTransactionToNA();
             }
-            if (transaction3 == null || transaction3.equals("")) {
+            if (transaction3 == null || transaction3.isEmpty()) {
                 transaction3 = setTransactionToNA();
             }
         } catch (IOException e) {
@@ -279,8 +279,8 @@ class Bank {
             System.out.println(2);
             Error("resetError");
         }
-        //double j = (((((float) toSec / 60) / 60) / 24) / 365);
-        double j = (((float) toSec / 60) / 60);
+        double j = (((((float) toSec / 60) / 60) / 24) / 365);
+        //double j = (((float) toSec / 60) / 60);
         newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance).replace(",", ""));
         changeFileValue(String.valueOf(newBalance), 3);
         return newBalance;
