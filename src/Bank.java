@@ -74,7 +74,7 @@ class Bank {
                 try {
                     accountNumberString = String.format("%06d", rand.nextInt(999999));
                     balance = startingBalance;
-                    Writer w1 = new FileWriter("JavaBankDir/" + username + ".txt");    //makes a .txt file for that person
+                    Writer w1 = new FileWriter("JavaBankDir\\" + username + ".txt");    //makes a .txt file for that person
                     w1.write(fullName + "\n" + accountNumberString + "\n" + password + "\n" + startingBalance);    //writes the person's information
                     w1.close();    //closes the writer
                     getInformation();
