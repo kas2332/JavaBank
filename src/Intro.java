@@ -11,7 +11,7 @@ public class Intro extends javax.swing.JFrame {
 
     public void intro() {
 
-        /* Set the Nimbus look and feel */
+        //<editor-fold desc="Set the Nimbus look and feel">
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -23,14 +23,13 @@ public class Intro extends javax.swing.JFrame {
                  UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Intro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-
-        //Set up the JFrame
+        //</editor-fold>
 
         //Create font
         Font font = new Font("Comic Sans MS", Font.PLAIN, 12);
         //Create Frame
         JFrame frame = new JFrame("Java Bank"); //create JFrame and set title
-        //Start create panels, texts, and fields
+        //<editor-fold desc="Start create panels, texts, and fields">
         JPanel LogInPanel = new javax.swing.JPanel();
         JLabel LogInUsernameText = new javax.swing.JLabel();
         JLabel LogInPasswordText = new javax.swing.JLabel();
@@ -49,11 +48,12 @@ public class Intro extends javax.swing.JFrame {
         JPasswordField ConfirmField = new javax.swing.JPasswordField();
         JPanel WelcomePanel = new javax.swing.JPanel();
         JLabel WelcomeText = new javax.swing.JLabel();
+        //</editor-fold>
         //Sets Frame behaviors
         frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(true);
 
-        //Log In Panel formatting
+        //<editor-fold desc="Log In Panel formatting">
         LogInPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Log In", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font));
         LogInPanel.setPreferredSize(new java.awt.Dimension(215, 295));
 
@@ -67,7 +67,7 @@ public class Intro extends javax.swing.JFrame {
 
         LogInButton.setFont(font);
         LogInButton.setText("Log In");
-        LogInButton.addActionListener(e -> {
+        LogInButton.addActionListener(_ -> {
             username = LogInUsernameField.getText().trim();
             //noinspection deprecation
             password = LogInPasswordField.getText().trim();
@@ -112,14 +112,15 @@ public class Intro extends javax.swing.JFrame {
                                 .addComponent(LogInButton)
                                 .addContainerGap(102, Short.MAX_VALUE))
         );
+        //</editor-fold>
 
-        //Sign Up panel formatting
+        //<editor-fold desc="Sign Up panel formatting">
         SignUpPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sign Up", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, font));
         SignUpPanel.setPreferredSize(new java.awt.Dimension(215, 295));
 
         SignUpButton.setFont(font);
         SignUpButton.setText("Sign Up");
-        SignUpButton.addActionListener(e -> {
+        SignUpButton.addActionListener(_ -> {
             username = SignUpUsernameField.getText().trim();
             //noinspection deprecation
             password = SignUpPasswordField.getText().trim();
@@ -250,7 +251,7 @@ public class Intro extends javax.swing.JFrame {
                                         .addComponent(SignUpPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-
+        //</editor-fold>
         frame.pack();
         frame.setLocationRelativeTo(null);  //centers the jframe in the screen
         frame.setVisible(true);

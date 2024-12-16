@@ -217,7 +217,7 @@ class Bank {
                 if (!(path.toFile()).isDirectory()) {
                     if (!username.equals(removeExtension(path))) {
                         try {
-                            namesList.add(Files.readAllLines(Paths.get(String.valueOf(path.toFile()))).get(0));
+                            namesList.add(Files.readAllLines(Paths.get(String.valueOf(path.toFile()))).getFirst());
                             userNamesList.add(removeExtension(path));
                         } catch (IOException e) {
                             throw new RuntimeException(e);

@@ -138,19 +138,19 @@ public class TabbedPane {
 
         DepositButton.setFont((font));
         DepositButton.setText("Deposit");
-        DepositButton.addActionListener(e -> TabbedPane.setSelectedIndex(1));
+        DepositButton.addActionListener(_ -> TabbedPane.setSelectedIndex(1));
 
         WithdrawButton.setFont((font));
         WithdrawButton.setText("Withdraw");
-        WithdrawButton.addActionListener(e -> TabbedPane.setSelectedIndex(2));
+        WithdrawButton.addActionListener(_ -> TabbedPane.setSelectedIndex(2));
 
         TransferButton.setFont((font));
         TransferButton.setText("Transfer");
-        TransferButton.addActionListener(e -> TabbedPane.setSelectedIndex(3));
+        TransferButton.addActionListener(_ -> TabbedPane.setSelectedIndex(3));
 
         InfoButton.setFont((font));
         InfoButton.setText("Account");
-        InfoButton.addActionListener(e -> TabbedPane.setSelectedIndex(4));
+        InfoButton.addActionListener(_ -> TabbedPane.setSelectedIndex(4));
 
         //<editor-fold desc="DO NOT TOUCH, ButtonPaneLayout">
         javax.swing.GroupLayout ButtonPaneLayout = new javax.swing.GroupLayout(ButtonPane);
@@ -248,7 +248,7 @@ public class TabbedPane {
 
         DepositConfirmButton.setFont((font));
         DepositConfirmButton.setText("Confirm");
-        DepositConfirmButton.addActionListener(e -> {
+        DepositConfirmButton.addActionListener(_ -> {
             depositAmount = DepositSlider.getValue();
             bank.setUsername(username);
             //bank.setBalance(balance);
@@ -260,7 +260,7 @@ public class TabbedPane {
         VariableDepositText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         VariableDepositText.setText("$" + (int) Math.round(balance));
 
-        DepositSlider.addChangeListener(e -> VariableDepositText.setText("$" + DepositSlider.getValue()));
+        DepositSlider.addChangeListener(_ -> VariableDepositText.setText("$" + DepositSlider.getValue()));
 
         //<editor-fold desc="DO NOT TOUCH, DepositSliderPanelLayout">
         javax.swing.GroupLayout DepositSliderPanelLayout = new javax.swing.GroupLayout(DepositSliderPanel);
@@ -361,7 +361,7 @@ public class TabbedPane {
 
         WithdrawConfirmButton.setFont((font));
         WithdrawConfirmButton.setText("Confirm");
-        WithdrawConfirmButton.addActionListener(e -> {
+        WithdrawConfirmButton.addActionListener(_ -> {
             withdrawAmount = (WithdrawSlider.getValue() * -1);
             bank.setUsername(username);
             //bank.setBalance(balance);
@@ -373,7 +373,7 @@ public class TabbedPane {
         VariableWithdrawText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         VariableWithdrawText.setText("$" + (int) Math.round(balance));
 
-        WithdrawSlider.addChangeListener(e -> VariableWithdrawText.setText("$" + WithdrawSlider.getValue()));
+        WithdrawSlider.addChangeListener(_ -> VariableWithdrawText.setText("$" + WithdrawSlider.getValue()));
 
         //<editor-fold desc="DO NOT TOUCH, WithdrawPanelLayout">
         javax.swing.GroupLayout WithdrawPanelLayout = new javax.swing.GroupLayout(WithdrawPanel);
@@ -477,7 +477,7 @@ public class TabbedPane {
         VariableTransferText1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         VariableTransferText1.setText("$" + (int) Math.round(balance));
 
-        TransferSlider.addChangeListener(e -> VariableTransferText1.setText("$" + TransferSlider.getValue()));
+        TransferSlider.addChangeListener(_ -> VariableTransferText1.setText("$" + TransferSlider.getValue()));
 
         //<editor-fold desc="DO NOT TOUCH, TransferPanelLayout">
         javax.swing.GroupLayout TransferPanelLayout = new javax.swing.GroupLayout(TransferPanel);
@@ -543,7 +543,7 @@ public class TabbedPane {
 
         TransferConfirmButton.setFont((font));
         TransferConfirmButton.setText("Confirm");
-        TransferConfirmButton.addActionListener(e -> {
+        TransferConfirmButton.addActionListener(_ -> {
             transferAmount = TransferSlider.getValue();
             transfereeNameIndex = TransfereeComboBox.getSelectedIndex();
             tranfereeName = namesArray[transfereeNameIndex];
@@ -624,7 +624,7 @@ public class TabbedPane {
 
         ChangeButton.setFont(font);
         ChangeButton.setText("Change");
-        ChangeButton.addActionListener(e -> {
+        ChangeButton.addActionListener(_ -> {
             newUsername = VariableUsernameField.getText().trim();
             newFullName = VariableFullNameText.getText().trim();
             //noinspection deprecation
@@ -725,7 +725,7 @@ public class TabbedPane {
 
         LogOutButton.setFont((font));
         LogOutButton.setText("Log Out");
-        LogOutButton.addActionListener(e -> {
+        LogOutButton.addActionListener(_ -> {
             bank.setUsername("null");
             frame.dispose();
             Intro intro = new Intro();
