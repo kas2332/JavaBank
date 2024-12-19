@@ -3,10 +3,7 @@
 //Upgraded Banking account
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -64,7 +61,7 @@ class Bank {
             password = passwordP;
             confirm = confirmP;
             fullName = fullNameP;
-            if (new File("JavaBankDir\\" + username + ".txt").exists()) {    //checks to see if there is an account with that username
+            if (new File("JavaBankDir" + File.separator + username + ".txt").exists()) {    //checks to see if there is an account with that username
                 Error("username taken");    //sends an error message method that the username is already taken
                 intro.intro();    //pulls up the intro jframe
             } else if (!Objects.equals(password, confirm)) {    //checks to see if the password and confirm password fields match
@@ -74,8 +71,8 @@ class Bank {
                 try {
                     accountNumberString = String.format("%06d", rand.nextInt(999999));
                     balance = startingBalance;
-                    Writer w1 = new FileWriter("JavaBankDir\\" + username + ".txt");    //makes a .txt file for that person
-                    w1.write(fullName + "\n" + accountNumberString + "\n" + password + "\n" + startingBalance);    //writes the person's information
+                    Writer w1 = new FileWriter("JavaBankDir" + File.separator + username + ".txt");    //makes a .txt file for that person
+                    w1.write(fullName + System.lineSeparator() + accountNumberString + System.lineSeparator() + password + System.lineSeparator() + startingBalance + "0");    //writes the person's information
                     w1.close();    //closes the writer
                     getInformation();
                     tabbedPane.tabbedPane(username);    //pulls up the main jframe
@@ -100,12 +97,12 @@ class Bank {
         } else {
             username = usernameP;
             password = passwordP;
-            if (!(new File("JavaBankDir\\" + username + ".txt").exists())) {    //checks to see if that username does not exist
+            if (!(new File("JavaBankDir" + File.separator + username + ".txt").exists())) {    //checks to see if that username does not exist
                 Error("incorrect username");    //sends an error message that the username does not exist
                 intro.intro();  //pulls up the intro jframe
             } else {    //checks if password is right
                 try {
-                    FilePass = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(2); //pulls up the third line of the text file which is the password
+                    FilePass = Files.readAllLines(Paths.get("JavaBankDir" + File.separator + username + ".txt")).get(2); //pulls up the third line of the text file which is the password
                 } catch (IOException e) {
                     Error("resetError");
                 }
@@ -180,8 +177,8 @@ class Bank {
                 changeFileValue(newFullNameP, 0);
             }
             if (!newUsernameP.equals(username)) {
-                File oldFileName = new File("JavaBankDir\\" + username + ".txt");
-                File newFileName = new File("JavaBankDir\\" + newUsernameP + ".txt");
+                File oldFileName = new File("JavaBankDir" + File.separator + username + ".txt");
+                File newFileName = new File("JavaBankDir" + File.separator + newUsernameP + ".txt");
                 if (newFileName.exists()) {
                     Error("username taken");
                 } else {
@@ -233,7 +230,7 @@ class Bank {
 
     public void getInformation() {
         try {
-            List<String> fileLines = Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt"));
+            List<String> fileLines = Files.readAllLines(Paths.get("JavaBankDir" + File.separator + username + ".txt"));
             int numLines = fileLines.size();
             fullName = fileLines.get(0).trim();
             accountNumberString = fileLines.get(1).trim();
@@ -262,13 +259,41 @@ class Bank {
         }
     }
 
+    private void removeEmptyLines() {
+        Scanner file;
+        PrintWriter writer;
+        File og = new File("JavaBankDir" + File.separator + username + ".txt"), copy = new File("JavaBankDir" + File.separator + username + "2.txt");
+
+        try {
+            file = new Scanner(og);
+            writer = new PrintWriter(copy);
+            while (file.hasNext()) {
+                String line = file.nextLine();
+                if (!line.isEmpty()) {
+                    writer.write(line);
+                    writer.write(System.lineSeparator());
+                }
+            }
+            file.close();
+            writer.close();
+            if (!og.delete()) {
+                Error("error");
+            }
+            if (!copy.renameTo(og)) {
+                Error("error");
+            }
+        } catch (FileNotFoundException ex) {
+            Error("resetError");
+        }
+    }
+
     public double getInterest() {
         double newBalance;
         long toSec = 0;
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
         DecimalFormat df = (DecimalFormat) nf;
         df.setMaximumFractionDigits(2);
-        Path path = Paths.get("JavaBankDir\\" + username + ".txt");
+        Path path = Paths.get("JavaBankDir" + File.separator + username + ".txt");
         BasicFileAttributes attr;
         try {
             balance = getFileBalance();
@@ -276,18 +301,17 @@ class Bank {
             Duration res = Duration.between(attr.lastModifiedTime().toInstant(), Instant.now());
             toSec = res.getSeconds();
         } catch (Exception e) {
-            System.out.println(2);
             Error("resetError");
         }
-        double j = (((((float) toSec / 60) / 60) / 24) / 365);
-        //double j = (((float) toSec / 60) / 60);
-        newBalance = Double.parseDouble(df.format((float) balance * (0.1 * j) + balance).replace(",", ""));
+        //double j = ((((float) toSec / 60) / 60) / 24);
+        double j = ((float) toSec / 60);
+        newBalance = Double.parseDouble(df.format((float) balance * Math.exp(0.05 * j)).replace(",", ""));
         changeFileValue(String.valueOf(newBalance), 3);
         return newBalance;
     }
 
     public void changeFileValue(String newValue, int lineNumber) {
-        String filePath = "JavaBankDir\\" + username + ".txt";
+        String filePath = "JavaBankDir" + File.separator + username + ".txt";
         try {
             Scanner sc = new Scanner(new File(filePath));
             StringBuilder buffer = new StringBuilder();
@@ -295,24 +319,23 @@ class Bank {
                 buffer.append(sc.nextLine()).append(System.lineSeparator());
             }
             String fileContents = buffer.toString();
-            String[] fileContentsArray = fileContents.split("\n");
-            fileContentsArray[lineNumber] = newValue + "\n";
+            String[] fileContentsArray = fileContents.split(System.lineSeparator());
+            fileContentsArray[lineNumber] = newValue + System.lineSeparator();
             sc.close();
-
             FileWriter writer = new FileWriter(filePath);
             for (String i : fileContentsArray) {
-                writer.append(i);
+                writer.append(i).append(System.lineSeparator());
             }
             writer.flush();
             writer.close();
         } catch (Exception e) {
-            System.out.println(3);
             Error("resetError");
         }
+        removeEmptyLines();
     }
 
     public void changeFileValue(String originalValue, String newValue, String descriptionP) {
-        String filePath = "JavaBankDir\\" + username + ".txt";
+        String filePath = "JavaBankDir" + File.separator + username + ".txt";
         LocalDateTime d = LocalDateTime.now();
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("E, MMM dd yyyy: HH:mm:ss");
         try {
@@ -321,10 +344,10 @@ class Bank {
             int lineNum = 0;
             while (sc.hasNextLine()) {
                 buffer.append(sc.nextLine()).append(System.lineSeparator());
-                if (lineNum == 3) {
-                    buffer.append(d.format(dateFormatter)).append(descriptionP).append(System.lineSeparator());
-                }
                 lineNum++;
+                if (lineNum == 4) {
+                    buffer.append(d.format(dateFormatter)).append(descriptionP);
+                }
             }
             String fileContents = buffer.toString();
             sc.close();
@@ -334,14 +357,14 @@ class Bank {
             writer.flush();
             writer.close();
         } catch (Exception e) {
-            System.out.println(4);
             Error("resetError");
         }
+        removeEmptyLines();
     }
 
     public double getFileBalance() {
         try {
-            balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir\\" + username + ".txt")).get(3));
+            balance = Double.parseDouble(Files.readAllLines(Paths.get("JavaBankDir" + File.separator + username + ".txt")).get(3));
         } catch (IOException e) {
             Error("resetError");
         }
